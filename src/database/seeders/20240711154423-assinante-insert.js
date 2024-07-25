@@ -1,9 +1,9 @@
-"use strict";
+'use strict'
 const { uuid } = require('uuidv4')
 module.exports = {
 
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert("assinante", [
+    await queryInterface.bulkInsert('assinante', [
       {
         id: uuid(),
         nome: 'Adolfo S',
@@ -29,11 +29,11 @@ module.exports = {
         aluno: false,
         createdAt: new Date(),
         updatedAt: new Date()
-      },
-    ], {});
+      }
+    ], {})
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("assinante", null, {});
+    await queryInterface.bulkDelete('assinante', null, {})
   }
-};
+}

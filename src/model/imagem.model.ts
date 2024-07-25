@@ -1,7 +1,7 @@
-import { Model, DataTypes } from "sequelize";
-import connection from "./connection";
-import Assinante from "./assinante.model";
-import { uuid } from "uuidv4";
+import { Model, DataTypes } from 'sequelize'
+import connection from './connection'
+import Assinante from './assinante.model'
+import { uuid } from 'uuidv4'
 
 class Imagem extends Model {
 }
@@ -11,41 +11,41 @@ Imagem.init(
     id: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
 
     fkAssinante: {
       type: DataTypes.UUID,
-      allowNull: false,
+      allowNull: false
     },
 
     nomeArquivo: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     dataUpLoad: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: false
     },
 
     dataValidade: {
       type: DataTypes.DATE,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   },
   {
     sequelize: connection,
-    tableName: "imagem",
+    tableName: 'imagem',
     hooks: {
-      async beforeValidate(instance) {
-        instance.id = uuid();
-      },
-    },
+      async beforeValidate (instance) {
+        instance.id = uuid()
+      }
+    }
   }
-);
+)
 
-Imagem.belongsTo(Assinante, { foreignKey: "fkAssinante" });
-Assinante.hasMany(Imagem, { foreignKey: "fkAssinante" });
+Imagem.belongsTo(Assinante, { foreignKey: 'fkAssinante' })
+Assinante.hasMany(Imagem, { foreignKey: 'fkAssinante' })
 
-export default Imagem;
+export default Imagem

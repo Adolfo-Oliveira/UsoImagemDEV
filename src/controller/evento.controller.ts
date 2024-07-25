@@ -37,28 +37,28 @@ class Evento1 implements IController {
 
       res
         .status(200)
-        .json({ message: "Evento criado com sucesso" })
+        .json({ message: 'Evento criado com sucesso' })
     } catch (error) {
-      console.error("Erro ao criar evento:", error)
-      res.status(500).json({ message: "Erro ao criar evento" })
+      console.error('Erro ao criar evento:', error)
+      res.status(500).json({ message: 'Erro ao criar evento' })
     }
   }
 
-  async find(req: Request, res: Response, next: NextFunction): Promise<any> {
-    throw new Error("Method not implemented.");
+  async find (req: Request, res: Response, next: NextFunction): Promise<any> {
+    throw new Error('Method not implemented.')
   }
 
-  async update(req: Request, res: Response, next: NextFunction): Promise<any> {
-    throw new Error("Method not implemented.");
+  async update (req: Request, res: Response, next: NextFunction): Promise<any> {
+    throw new Error('Method not implemented.')
   }
 
-  async delete(req: Request, res: Response, next: NextFunction): Promise<any> {
-    throw new Error("Method not implemented.");
+  async delete (req: Request, res: Response, next: NextFunction): Promise<any> {
+    throw new Error('Method not implemented.')
   }
 
-  async search(req: Request, res: Response, next: NextFunction): Promise<any> {
-    throw new Error("Method not implemented.");
+  async search (req: Request, res: Response, next: NextFunction): Promise<any> {
+    throw new Error('Method not implemented.')
   }
 }
 
-export default new Evento1();
+export default new Evento1()

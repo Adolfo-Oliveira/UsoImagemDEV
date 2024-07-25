@@ -1,6 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import { uuid } from "uuidv4";
-import connection from "./connection";
+import { Model, DataTypes } from 'sequelize'
+import { uuid } from 'uuidv4'
+import connection from './connection'
 
 class Termo extends Model {
 
@@ -11,33 +11,33 @@ Termo.init(
     id: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
 
     versao: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     data: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: false
     },
 
     descricao: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   },
   {
     sequelize: connection,
-    tableName: "termo",
+    tableName: 'termo',
     hooks: {
-      async beforeValidate(instance) {
-        instance.id = uuid();
-      },
-    },
+      async beforeValidate (instance) {
+        instance.id = uuid()
+      }
+    }
   }
-);
+)
 
-export default Termo;
+export default Termo

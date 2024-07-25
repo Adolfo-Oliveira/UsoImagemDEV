@@ -47,6 +47,7 @@ import PerfilUtils from "./utils/perfil.utils";
 import UserNotificationItem from "./components/user-notification-item";
 import Equipe from "./pages/equipe";
 import ValidarUsuarioForm from "./pages/validar-usuario-form";
+import LinkEvento from "./pages/linkEvento";
 
 const getCookie = require("./utils/getCookie")
 
@@ -443,6 +444,13 @@ const Masterpage = (props) => {
             path="/unidade"
             render={(props) => <Unidade {...props} logged={logged} />}
           />
+
+          <Route
+            exact
+            path="/linkEvento/:eventoId"
+            render={(props) => <LinkEvento {...props} logged={logged} />}
+          />
+
 
           <Route
             exact

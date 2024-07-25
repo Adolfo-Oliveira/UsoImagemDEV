@@ -12,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import TaskFilter from "../components/task-filter";
 import TaskItem from "../components/task-item";
 import EventoCard from "../components/EventoCard";
-
+import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -25,7 +25,9 @@ import Typography from "@mui/material/Typography";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { blue } from "@mui/material/colors";
+import LinkEvento from "./linkEvento";
 const getCookie = require("../utils/getCookie");
+
 
 const Home = (props) => {
   const [openLoadingDialog, setOpenLoadingDialog] = useState(false);
@@ -174,15 +176,21 @@ const Home = (props) => {
       <Fab
         variant="extended"
         onClick={() => setOpen(true)}
-        ariaLabel="Novo Evento"
+        aria-label="Novo Evento"
         sx={{
           position: "fixed",
           bottom: 16,
           right: 16,
           backgroundColor: "#004A8D",
           color: "white",
+          boxShadow: "none",
+          '&:hover': {
+            backgroundColor: "#004A8D",
+            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)", // Sombra ao passar o mouse
+          },
         }}
       >
+        <AddIcon sx={{ marginRight: 1 }} />
         Criar Evento
       </Fab>
 

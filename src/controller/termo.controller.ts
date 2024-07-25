@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { IController } from './controller.inteface'
-import Termo from '../model/termo.model'
+// import Termo from '../model/termo.model'
 
-class Termo implements IController {
+class Termo1 implements IController {
   async all (req: Request, res: Response, next: NextFunction): Promise<any> {
     throw new Error('Method not implemented.')
   }
@@ -28,4 +28,4 @@ class Termo implements IController {
   }
 }
 
-export default new Termo()
+export default new Termo1()

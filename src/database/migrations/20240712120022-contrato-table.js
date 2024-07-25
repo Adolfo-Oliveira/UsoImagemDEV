@@ -1,49 +1,48 @@
-"use strict";
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-
     await queryInterface.createTable('contrato', {
 
       id: {
         type: Sequelize.UUID,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
       },
 
       fkAssinante: {
         type: Sequelize.UUID,
-        allowNull: false,
+        allowNull: false
       },
 
       fkEvento: {
         type: Sequelize.UUID,
-        allowNull: false,
+        allowNull: false
       },
 
       fkImagem: {
         type: Sequelize.UUID,
-        allowNull: false,
+        allowNull: false
       },
 
       fkTermo: {
         type: Sequelize.UUID,
-        allowNull: false,
+        allowNull: false
       },
 
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
-      
+
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
-    });
+        type: Sequelize.DATE
+      }
+    })
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('contrato');
+    await queryInterface.dropTable('contrato')
   }
-};
+}

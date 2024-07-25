@@ -9,24 +9,23 @@ Qr.init(
     id: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
 
     caminho: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     }
-
-},
+  },
   {
     sequelize: connection,
-    tableName: "qr",
+    tableName: 'qr',
     hooks: {
       async beforeValidate (instance) {
         instance.id = uuid()
       }
     }
   }
-);
+)
 
-export default Qr;
+export default Qr

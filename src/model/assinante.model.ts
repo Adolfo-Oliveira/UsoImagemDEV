@@ -1,6 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import connection from "./connection";
-import { uuid } from "uuidv4";
+import { Model, DataTypes } from 'sequelize'
+import connection from './connection'
+import { uuid } from 'uuidv4'
 
 class Assiante extends Model { }
 
@@ -9,38 +9,38 @@ Assiante.init(
     id: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
 
     nome: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     telefone: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: true
     },
 
     cep: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     dataNasc: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: false
     },
 
     identidade: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     cpf: {
@@ -50,26 +50,26 @@ Assiante.init(
       validate: {
         is: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
         notNull: {
-          msg: "O campo CPF não pode ser nulo",
-        },
-      },
+          msg: 'O campo CPF não pode ser nulo'
+        }
+      }
     },
 
     aluno: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: true,
-    },
+      defaultValue: true
+    }
   },
   {
     sequelize: connection,
-    tableName: "assiantne",
+    tableName: 'assiantne',
     hooks: {
-      async beforeValidate(instance) {
-        instance.id = uuid();
-      },
-    },
+      async beforeValidate (instance) {
+        instance.id = uuid()
+      }
+    }
   }
-);
+)
 
-export default Assiante;
+export default Assiante

@@ -7,7 +7,8 @@ const ToolbarContainer = styled.div`
   right: 0; 
   top: 0;
   height: 64px;
-  background-color: #ffffff;
+  background-color: #004A8D;
+  color: #ffffff;
   padding-left: 16px;
   padding-right: 16px;
   display: flex;
@@ -23,7 +24,7 @@ const Toolbar = (props) => {
   return (
     <ToolbarContainer>
       <div>{menu}</div>
-      <div style={{marginRight: 16, marginLeft: 16, fontWeight: 'bold', flex: 1}}>{title}</div>
+      <div style={{marginRight: 16, marginLeft: 16, fontWeight: 'normal', flex: 1,}}>{title}</div>
       <div>{actions}</div>
     </ToolbarContainer>
   )

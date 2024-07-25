@@ -1,43 +1,43 @@
-"use strict";
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("assinante", {
+    await queryInterface.createTable('assinante', {
       id: {
         type: Sequelize.UUID,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
       },
 
       nome: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
 
       telefone: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
 
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
+        unique: true
       },
 
       cep: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
 
       dataNasc: {
         type: Sequelize.DATEONLY,
-        allowNull: false,
-      },      
+        allowNull: false
+      },
 
       identidade: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
 
       cpf: {
@@ -47,15 +47,15 @@ module.exports = {
         validate: {
           is: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
           notNull: {
-            msg: "O campo CPF não pode ser nulo",
-          },
-        },
+            msg: 'O campo CPF não pode ser nulo'
+          }
+        }
       },
 
       aluno: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: true
       },
 
       createdAt: {
@@ -66,11 +66,11 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false
-      },
-    });
+      }
+    })
   },
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("assinante");
-  },
-};
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('assinante')
+  }
+}

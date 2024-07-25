@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -23,12 +23,12 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        titulo: 'Evento de beleza',
-        data: new Date('2025-08-01'),
-        hora: '20:00:00',
-        descricao: 'Evento sobre as últimas tendências em beleza.',
-        categoria: 'beleza',
-        eixo: 'Inovação',
+        titulo: 'Propaganda salão de beleza',
+        // data: new Date('2025-08-01'),
+        // hora: '20:00:00',
+        descricao: 'Assinaturas do contrato de direito de imagem para o salão de beleza.',
+        categoria: 'Beleza',
+        eixo: 'Propaganda',
         fkUsuario: usuario[0][0].id,
         fkQr: qr[0][0].id,
         createdAt: new Date(),
@@ -46,11 +46,11 @@ module.exports = {
         fkQr: qr[0][0].id,
         createdAt: new Date(),
         updatedAt: new Date()
-      },
-    ], {});
+      }
+    ], {})
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('evento', null, {});
+    await queryInterface.bulkDelete('evento', null, {})
   }
-};
+}

@@ -10,6 +10,7 @@ import routerPerfil from './router/perfil.router'
 // import routerChamado from './router/chamado.router'
 import routerConfiguracaoGlobal from './router/configuracaoGlobal.router'
 import routerEvento from './router/evento.router'
+import routerAluno from './router/aluno.router'
 import routerQr from './router/qr.router'
 import routerTermo from './router/termo.router'
 import routerAssinante from './router/assinante.router'
@@ -45,6 +46,7 @@ class Server {
     // this.application.use('/api/chamado/', routerChamado)
     this.application.use('/api/configuracao/', routerConfiguracaoGlobal)
     this.application.use('/api/evento/', routerEvento)
+    this.application.use('/api/aluno/', routerAluno)
     this.application.use('/api/qr/', routerQr)
     this.application.use('/api/termo/', routerTermo)
     this.application.use('/api/assinante/', routerAssinante)

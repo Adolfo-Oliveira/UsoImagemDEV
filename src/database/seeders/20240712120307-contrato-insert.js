@@ -1,16 +1,14 @@
-'use strict';
+'use strict'
 
 const { uuid } = require('uuidv4')
 
 module.exports = {
 
   up: async (queryInterface, Sequelize) => {
-
     const assinante = await queryInterface.sequelize.query('select * from assinante where nome = \'Adolfo S\'')
     const evento = await queryInterface.sequelize.query('select * from evento where titulo = \'Evento de Tecnologia\'')
     const imagem = await queryInterface.sequelize.query('select * from imagem where nomeArquivo = \'FotoAdolfo\'')
     const termo = await queryInterface.sequelize.query('select * from termo where versao = \'2.0\'')
-
 
     await queryInterface.bulkInsert('contrato', [
       {
@@ -20,12 +18,12 @@ module.exports = {
         fkImagem: imagem[0][0].id,
         fkTermo: termo[0][0].id,
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ], {});
+        updatedAt: new Date()
+      }
+    ], {})
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('contrato', null, {});
+    await queryInterface.bulkDelete('contrato', null, {})
   }
-};
+}

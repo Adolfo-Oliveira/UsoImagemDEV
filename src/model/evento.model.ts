@@ -1,7 +1,7 @@
-import { Model, DataTypes } from "sequelize";
-import connection from "./connection";
-import Qr from "./qr.model";
-import Usuario from "./usuario.model";
+import { Model, DataTypes } from 'sequelize'
+import connection from './connection'
+import Qr from './qr.model'
+import Usuario from './usuario.model'
 
 class Evento extends Model {
 }
@@ -11,59 +11,59 @@ Evento.init(
     id: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
 
     titulo: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     data: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true
     },
 
     hora: {
       type: DataTypes.TIME,
-      allowNull: false,
+      allowNull: true
     },
 
     descricao: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     categoria: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     eixo: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
 
     fkUsuario: {
       type: DataTypes.UUID,
-      allowNull: false,
+      allowNull: false
     },
 
     fkQr: {
       type: DataTypes.UUID,
-      allowNull: true,
-    },
+      allowNull: true
+    }
   },
   {
     sequelize: connection,
-    tableName: "evento",
+    tableName: 'evento'
   }
-);
+)
 
-Evento.belongsTo(Usuario, { foreignKey: "fkUsuario" });
-Usuario.hasMany(Evento, { foreignKey: 'fkUsuario' });
+Evento.belongsTo(Usuario, { foreignKey: 'fkUsuario' })
+Usuario.hasMany(Evento, { foreignKey: 'fkUsuario' })
 
-Evento.belongsTo(Qr, { foreignKey: "fkQr" });
-Qr.hasOne(Evento, { foreignKey: "fkQr" });
+Evento.belongsTo(Qr, { foreignKey: 'fkQr' })
+Qr.hasOne(Evento, { foreignKey: 'fkQr' })
 
-export default Evento;
+export default Evento
