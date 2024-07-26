@@ -439,7 +439,7 @@ const LinkEvento = () => {
         aria-labelledby="confirm-dialog-title"
         aria-describedby="confirm-dialog-description"
       >
-        <DialogTitle id="confirm-dialog-title">Confirmação dos dados para assinatura</DialogTitle>
+        <DialogTitle id="confirm-dialog-title">Confirmação dos dados para assinatura dos termos</DialogTitle>
         <DialogContent>
           <DialogContentText id="confirm-dialog-description">
             <b>Você está prestes a assinar com os seguintes dados:</b><br /><br />

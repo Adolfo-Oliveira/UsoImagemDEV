@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { IController } from './controller.inteface'
 import Assinante from '../model/assinante.model'
 
-class Assinante implements IController {
+class AssinanteController implements IController {
   async all (req: Request, res: Response, next: NextFunction): Promise<any> {
     throw new Error('Method not implemented.')
   }
@@ -28,4 +28,4 @@ class Assinante implements IController {
   }
 }
 
-export default new Assinante()
+export default new AssinanteController()
