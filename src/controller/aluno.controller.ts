@@ -13,10 +13,10 @@ class AlunoController implements IController {
 
   async find (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      console.log('aluno.controller: find')
+      // console.log('aluno.controller: find')
       const { CPF } = req.params
 
-      console.log(CPF)
+      // console.log(CPF)
 
       const registro = await Aluno.findOne({
         where: {

@@ -10,57 +10,62 @@ import EditIcon from "@mui/icons-material/Edit";
 import LinkEvento from "../pages/linkEvento";
 import TextField from "@mui/material/TextField";
 
-const EventoCard = ({ evento, onDelete, onEdit }) => {
+const AssinaturaCard = ({ assinatura, formData }) => {
+  
+  const history = useHistory();
 
+  const handleGoToEvent = () => {
+    history.push(`/home/`);
+  };
+
+  // Função para ajustar a data ao fuso horário local
 const adjustDate = (dateString) => {
   const date = new Date(dateString);
+
+  // Corrigir a data
   date.setDate(date.getDate() + 2);
   return date.toLocaleDateString('pt-BR');
 };
+
+const formatPhone = (ddd, phone) => {
+    return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
+  };
+
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <Card sx={{ minWidth: 600, maxWidth: 600, margin: "1rem" }}>
         <CardContent>
           <Typography variant="h5" component="div">
-            {evento.titulo}
+            {assinatura.nome}
           </Typography>
           <p></p>
-          {evento.data && (
+          {assinatura.dataNasc && (
             <Typography color="text.secondary">
-              <b>Data:</b> {adjustDate(evento.data)}
+              <b>Data Nascimento:</b> {adjustDate(assinatura.dataNasc)}
             </Typography>
           )}
-          {evento.hora && (
+          {assinatura.cpf && (
             <Typography color="text.secondary">
-              <b>Hora:</b> {evento.hora.substring(11, 16)} Hrs
+              <b>CPF:</b> {assinatura.cpf}
             </Typography>
           )}
           <Typography color="text.secondary">
-            <b>Descricao:</b> {evento.descricao}
+            <b>Email:</b> {assinatura.email}
           </Typography>
           
           <Typography color="text.secondary">
-            <b>Categoria:</b> {evento.categoria}
+          <b>Telefone:</b> {formatPhone(formData.ddd, formData.telefone)}
           </Typography>
           <Typography color="text.secondary">
-            <b>Eixo:</b> {evento.eixo}
+            <b>CEP:</b> {assinatura.cep}
           </Typography>
           <Button
             variant="contained"
             color="primary"
-            onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/assinaturas/${evento.id}`}
+            onClick={handleGoToEvent}
             style={{ marginTop: "1rem", marginLeft: "10px", backgroundColor: "#004A8D" }}
           >
-            Ver Assinaturas
-          </Button>
-          
-            <Button
-            variant="contained"
-            color="primary"
-            onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/QrCode/${evento.id}`}
-            style={{ marginTop: "1rem", marginLeft: "10px", backgroundColor: "#004A8D" }}
-          >
-            Link Assinatura do Evento
+            Voltar para Eventos 
           </Button>
         </CardContent>
       </Card>
@@ -68,4 +73,4 @@ const adjustDate = (dateString) => {
   );
 };
 
-export default EventoCard;
+export default AssinaturaCard;

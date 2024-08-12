@@ -137,7 +137,7 @@ const Home = (props) => {
       setOpenMessageDialog(true);
       console.error("Erro ao salvar evento:", err);
     });
-    }
+  }
 
   return (
     <div>

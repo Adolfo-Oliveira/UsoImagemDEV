@@ -13,7 +13,6 @@ class AlunoRouter {
   }
 
   private routers () {
-    console.log('aluno.router')
     this.router.get('/search/', controller.search)
     this.router.get('/', controller.all)
     this.router.post('/', controller.create)

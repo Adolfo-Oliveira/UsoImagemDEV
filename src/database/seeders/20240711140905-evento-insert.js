@@ -10,7 +10,7 @@ module.exports = {
     await queryInterface.bulkInsert('evento', [
       {
         id: uuidv4(),
-        titulo: 'Evento de Tecnologia',
+        titulo: 'Propaganda na Palestra de Tecnologia',
         data: new Date('2024-08-01'),
         hora: '19:00:00',
         descricao: 'Assinaturas do contrato de direito de imagem para o evento sobre as últimas tendências em tecnologia.',
@@ -23,10 +23,8 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        titulo: 'Propaganda salão de beleza',
-        // data: new Date('2025-08-01'),
-        // hora: '20:00:00',
-        descricao: 'Assinaturas do contrato de direito de imagem para o salão de beleza.',
+        titulo: 'Propaganda Salão de Beleza',
+        descricao: 'Assinaturas do contrato de direito de imagem para o salão de beleza do SENAC.',
         categoria: 'Beleza',
         eixo: 'Propaganda',
         fkUsuario: usuario[0][0].id,
@@ -36,7 +34,7 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        titulo: 'Evento de gastronomia',
+        titulo: 'Entrevista no Evento de Gastronomia',
         data: new Date('2024-05-10'),
         hora: '18:00:00',
         descricao: 'Assinaturas do contrato de direito de imagem para o evento sobre as últimas tendências em gastronomia.',

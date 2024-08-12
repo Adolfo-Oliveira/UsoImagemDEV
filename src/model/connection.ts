@@ -7,7 +7,8 @@ console.log(process.env.HOST)
 const sequelize = new Sequelize(process.env.DATABASE, process.env.USER, process.env.PWD, {
   host: process.env.HOST,
   dialect: process.env.DIALECT,
-  logging: false
+  logging: false,
+  timezone: '-03:00'
 })
 
 // const sequelize = new Sequelize('SENAC_TaskManagerDEV2', 'sa', 'local', {

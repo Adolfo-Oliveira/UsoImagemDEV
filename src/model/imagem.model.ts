@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize'
 import connection from './connection'
-import Assinante from './assinante.model'
+import Assinatura from './assinatura.model'
 import { uuid } from 'uuidv4'
 
 class Imagem extends Model {
@@ -14,7 +14,7 @@ Imagem.init(
       primaryKey: true
     },
 
-    fkAssinante: {
+    fkAssinatura: {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -45,7 +45,7 @@ Imagem.init(
   }
 )
 
-Imagem.belongsTo(Assinante, { foreignKey: 'fkAssinante' })
-Assinante.hasMany(Imagem, { foreignKey: 'fkAssinante' })
+Imagem.belongsTo(Assinatura, { foreignKey: 'fkAssinatura' })
+Assinatura.hasMany(Imagem, { foreignKey: 'fkAssinatura' })
 
 export default Imagem

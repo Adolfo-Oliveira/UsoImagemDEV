@@ -30,5 +30,6 @@ module.exports = {
   password: process.env.PWD.trim(),
   database: process.env.DATABASE.trim(),
   host: process.env.HOST.trim(),
-  dialect: process.env.DIALECT.trim()
+  dialect: process.env.DIALECT.trim(),
+  timezone: '-03:00'
 }

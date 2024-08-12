@@ -13,7 +13,7 @@ import routerEvento from './router/evento.router'
 import routerAluno from './router/aluno.router'
 import routerQr from './router/qr.router'
 import routerTermo from './router/termo.router'
-import routerAssinante from './router/assinante.router'
+import routerAssinatura from './router/assinatura.router'
 import routerImagem from './router/imagem.router'
 import routerContrato from './router/contrato.router'
 
@@ -49,7 +49,7 @@ class Server {
     this.application.use('/api/aluno/', routerAluno)
     this.application.use('/api/qr/', routerQr)
     this.application.use('/api/termo/', routerTermo)
-    this.application.use('/api/assinante/', routerAssinante)
+    this.application.use('/api/assinatura/', routerAssinatura)
     this.application.use('/api/imagem/', routerImagem)
     this.application.use('/api/contrato/', routerContrato)
 

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -11,11 +12,29 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import axios from 'axios';
 
 const getCookie = require("../utils/getCookie");
 
-const LinkEvento = () => {
-  const { eventoId } = useParams();
+const LinkEvento = (props) => {
+
+  const { eventoId } = props.match.params
+  const [ipAddress, setIpAddress] = useState('');
+
+  useEffect(() => {
+    const fetchIpAddress = async () => {
+      try {
+        const response = await axios.get('https://api.ipify.org?format=json');
+        setIpAddress(response.data.ip);
+      } catch (error) {
+        console.error('Erro ao obter endereço IP:', error);
+      }
+    };
+
+    fetchIpAddress();
+  }, []);
+  // alert(eventoId)
+  // const { eventoId } = useParams();
   const [formData, setFormData] = useState({
     cpf: '',
     nome: '',
@@ -28,7 +47,8 @@ const LinkEvento = () => {
     numero: '',
     bairro: '',
     cidade: '',
-    estado: ''
+    estado: '',
+    fkEvento: eventoId,
   });
   const [isCpfChecked, setIsCpfChecked] = useState(false);
   const [isCpfValid, setIsCpfValid] = useState(false);
@@ -37,9 +57,30 @@ const LinkEvento = () => {
   const [openLoadingDialog, setOpenLoadingDialog] = useState(false);
   const [cepDataLoaded, setCepDataLoaded] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [cep, setCep] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [nome, setNome] = useState("");
+  const [dataNasc, setDataNasc] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [logradouro, setLogradouro] = useState("");
+  const [numero, setNumero] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [estado, setEstado] = useState("");
+  const [open, setOpen] = useState("");
+  const [message, setMessage] = useState("");
+  const [openMessageDialog, setOpenMessageDialog] = useState("");
+  const [assinaturas, setAssinaturas] = useState([]);
+  const [fkEvento, setFkEvento] = useState([]);
+  const [isDataNascimentoDisabled, setIsDataNascimentoDisabled] = useState(false);
+  const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
+  const [openErrorDialog, setOpenErrorDialog] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
-    console.log('Evento ID:', eventoId);
+    // console.log('Evento ID:', eventoId);
   }, [eventoId]);
 
   const handleChange = (e) => {
@@ -51,15 +92,62 @@ const LinkEvento = () => {
     }
   };
 
+  const validarCPF = (cpf) => {
+    cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+  
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+      return false; // Verifica se o CPF tem 11 dígitos e não é uma sequência repetida
+    }
+  
+    let soma = 0;
+    let resto;
+  
+    // Verifica o primeiro dígito verificador
+    for (let i = 1; i <= 9; i++) {
+      soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    }
+  
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) {
+      resto = 0;
+    }
+  
+    if (resto !== parseInt(cpf.substring(9, 10))) {
+      return false;
+    }
+  
+    soma = 0;
+  
+    // Verifica o segundo dígito verificador
+    for (let i = 1; i <= 10; i++) {
+      soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    }
+  
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) {
+      resto = 0;
+    }
+  
+    if (resto !== parseInt(cpf.substring(10, 11))) {
+      return false;
+    }
+  
+    return true;
+  };
+  
   const handleCpfCheck = async () => {
-    // Verifique se o CPF tem exatamente 11 caracteres
-    if (formData.cpf.replace(/\D/g, '').length !== 11) {
-      alert('O CPF deve ter exatamente 11 dígitos.');
+    const cpf = formData.cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+  
+    // Verifique se o CPF é válido
+    if (!validarCPF(cpf)) {
+      alert('CPF inválido. Por favor, verifique e tente novamente.');
       return;
     }
+  
     await checkCpf(formData.cpf);
     setIsCpfChecked(true);
   };
+  
 
   // const handleNewCpf = () => {
   //   setIsCpfChecked(false);
@@ -103,16 +191,102 @@ const LinkEvento = () => {
       alert('Você deve aceitar os termos e condições antes de enviar.');
       return;
     }
-    console.log('Form Data Submitted:', formData);
+    // console.log('Form Data Submitted:', formData);
     setOpenConfirmDialog(true);
   };
+
+  // const carregarAssinaturas = async () => {
+  //   setOpenLoadingDialog(true);
+  //   const token = getCookie('_token_uso_imagem');
+  //   const params = {
+  //     headers: {
+  //       'Authorization': `Bearer ${token}`
+  //     }
+  //   };
+  //   try {
+  //     fetch(`${process.env.REACT_APP_DOMAIN_API}/api/assinatura/`, params)
+  //     .then(response => {
+  //       return response.json()
+  //     })
+  //     .then(response => {
+  //       setOpenLoadingDialog(false);
+  //       if(response.data){
+  //         setAssinaturas(response.data);
+  //       }
+  //     })
+  //   } catch (err) {
+  //     setOpenLoadingDialog(false);
+  //     console.error("Erro ao carregar assinaturas:", err);
+  //   }
+  // };
+
   const handleConfirmSubmit = () => {
-    // Aqui você pode adicionar a lógica para enviar os dados
-    console.log('Form Data Submitted:', formData);
-    setOpenConfirmDialog(false);
-    // Substitua o código abaixo pela lógica real de envio
-    // submitForm(formData);
-  };
+  const token = getCookie('_token_uso_imagem');
+
+  const params = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      cpf: formData.cpf,
+      nome: formData.nome,
+      dataNasc: formData.dataNascimento,
+      email: formData.email,
+      ddd: formData.ddd,
+      telefone: formData.telefone,
+      cep: formData.cep,
+      logradouro: formData.logradouro,
+      numero: formData.numero,
+      bairro: formData.bairro,
+      cidade: formData.cidade,
+      estado: formData.estado,
+      fkEvento: eventoId,
+      ip: ipAddress,
+    })
+  }
+
+  setOpenDialog(false);
+
+    fetch(`${process.env.REACT_APP_DOMAIN_API}/api/assinatura/`, params)
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(errorResponse => {
+            throw new Error(errorResponse.message || 'Erro ao salvar. Tente novamente.');
+          });
+        }
+        return response.json();
+      })
+      .then(response => {
+        setIsSuccess(true); // Marca a operação como bem-sucedida
+        setMessage('Assinatura realizada com sucesso!');
+        setOpenDialog(true); // Abre o diálogo
+      })
+      .catch(err => {
+        console.error("Erro ao salvar assinatura:", err);
+        
+        setIsSuccess(false); // Marca a operação como falha
+        
+        // Verifica se é um erro de chave única
+        if (err.message.includes('Violation of UNIQUE KEY constraint')) {
+          setMessage('Erro: CPF já está cadastrado. Por favor, verifique os dados inseridos.');
+        } else {
+          setMessage(err.message || 'Erro desconhecido');
+        }
+
+        setOpenDialog(true); // Abre o diálogo
+      });
+  }
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  }
+
+  const handleSuccessDialogClose = () => {
+    setOpenSuccessDialog(false);
+    window.location.href = "https://www.pe.senac.br/";
+  }; 
 
   const handleCancelSubmit = () => {
     setOpenConfirmDialog(false);
@@ -215,12 +389,19 @@ const LinkEvento = () => {
   };
 
   const formatPhone = (ddd, phone) => {
-    return `(${ddd}) ${phone.slice(0, 5)}${phone.slice(5)}`;
+    return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
   };
 
   const formatCep = (cep) => {
     return cep.replace(/\D/g, '')
       .replace(/^(\d{5})(\d{3})$/, '$1-$2');
+  };
+
+  const handleDataNascimentoBlur = () => {
+    const year = new Date(formData.dataNascimento).getFullYear();
+    if (year > 1900) {
+      setIsDataNascimentoDisabled(true);
+    }
   };
 
   return (
@@ -274,7 +455,7 @@ const LinkEvento = () => {
               onChange={handleChange}
               variant="outlined"
               required
-              disabled={!!formData.nome}
+              disabled={isCpfValid}
             />
             <TextField
               label="Data de Nascimento"
@@ -287,8 +468,10 @@ const LinkEvento = () => {
               InputLabelProps={{
                 shrink: true,
               }}
-              disabled={!!formData.dataNascimento}
+              // onBlur={handleDataNascimentoBlur}
+              disabled={isCpfValid}
             />
+            
             <TextField
               label="Email"
               name="email"
@@ -315,7 +498,7 @@ const LinkEvento = () => {
                 )}
               </InputMask>
               <InputMask
-                mask="99999-9999"
+                mask="999999999"
                 value={formData.telefone}
                 onChange={handleChange}
               >
@@ -458,11 +641,37 @@ const LinkEvento = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelSubmit} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleConfirmSubmit} color="primary">
-            Confirmar
+            <Button onClick={handleCancelSubmit} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmSubmit} color="primary" autoFocus>
+              Confirmar
+            </Button>
+          </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openDialog}
+        onClose={handleDialogClose}
+      >
+        <DialogTitle style={{ textAlign: 'center' }}>
+          {isSuccess ? 'Sucesso' : 'Erro'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {message}
+          </DialogContentText>
+          {isSuccess && (
+            <div style={{ textAlign: 'center', marginTop: '16px' }}>
+              <CheckCircleIcon style={{ color: 'green', fontSize: '60px' }} />
+            </div>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={isSuccess ? handleSuccessDialogClose : handleDialogClose}
+            color="primary" 
+            autoFocus>
+            {isSuccess ? 'OK' : 'Fechar'}
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { IController } from './controller.inteface'
-// import Qr from '../model/qr.model'
+import Qr from '../model/qr.model'
 
-class Qr1 implements IController {
+class QrController implements IController {
   async all (req: Request, res: Response, next: NextFunction): Promise<any> {
     throw new Error('Method not implemented.')
   }
@@ -28,4 +28,4 @@ class Qr1 implements IController {
   }
 }
 
-export default new Qr1()
+export default new QrController()

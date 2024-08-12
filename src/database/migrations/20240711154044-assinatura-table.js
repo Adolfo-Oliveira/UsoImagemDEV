@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('assinante', {
+    await queryInterface.createTable('assinatura', {
       id: {
         type: Sequelize.UUID,
         allowNull: false,
@@ -10,6 +10,11 @@ module.exports = {
       },
 
       nome: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      ddd: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -30,13 +35,33 @@ module.exports = {
         allowNull: false
       },
 
-      dataNasc: {
-        type: Sequelize.DATEONLY,
+      logradouro: {
+        type: Sequelize.STRING,
         allowNull: false
       },
 
-      identidade: {
+      numero: {
         type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      bairro: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      cidade: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      estado: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      dataNasc: {
+        type: Sequelize.DATEONLY,
         allowNull: false
       },
 
@@ -52,10 +77,14 @@ module.exports = {
         }
       },
 
-      aluno: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: true
+      fkEvento: {
+        type: Sequelize.UUID,
+        allowNull: false
+      },
+
+      ip: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
 
       createdAt: {
@@ -71,6 +100,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('assinante')
+    await queryInterface.dropTable('assinatura')
   }
 }

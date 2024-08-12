@@ -10,7 +10,7 @@ module.exports = {
         primaryKey: true
       },
 
-      fkAssinante: {
+      fkAssinatura: {
         type: Sequelize.UUID,
         allowNull: false
       },

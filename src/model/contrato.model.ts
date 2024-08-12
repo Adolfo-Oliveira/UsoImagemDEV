@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize'
 import connection from './connection'
 import { uuid } from 'uuidv4'
-import Assinante from './assinante.model'
+import Assinatura from './assinatura.model'
 import Evento from './evento.model'
 import Imagem from './imagem.model'
 import Termo from './termo.model'
@@ -18,7 +18,7 @@ Contrato.init(
       primaryKey: true
     },
 
-    fkAssinante: {
+    fkAssinatura: {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -49,8 +49,8 @@ Contrato.init(
   }
 )
 
-Assinante.belongsTo(Contrato, { foreignKey: 'fkContrato' })
-Contrato.hasMany(Assinante, { foreignKey: 'fkAssinante' })
+Assinatura.belongsTo(Contrato, { foreignKey: 'fkContrato' })
+Contrato.hasMany(Assinatura, { foreignKey: 'fkassinatura' })
 
 Contrato.belongsTo(Evento, { foreignKey: 'fkEvento' })
 Evento.hasOne(Contrato, { foreignKey: 'fkEContrato' })

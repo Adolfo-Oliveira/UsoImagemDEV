@@ -48,6 +48,8 @@ import UserNotificationItem from "./components/user-notification-item";
 import Equipe from "./pages/equipe";
 import ValidarUsuarioForm from "./pages/validar-usuario-form";
 import LinkEvento from "./pages/linkEvento";
+import Assinaturas from "./pages/assinaturas";
+import QrCode from "./pages/QrCode";
 
 const getCookie = require("./utils/getCookie")
 
@@ -451,6 +453,17 @@ const Masterpage = (props) => {
             render={(props) => <LinkEvento {...props} logged={logged} />}
           />
 
+          <Route
+            exact
+            path="/assinaturas/:id"
+            render={(props) => <Assinaturas {...props} logged={logged} />}
+          />
+
+          <Route
+            exact
+            path="/QrCode/:eventoId"
+            render={(props) => <QrCode {...props} logged={logged} />}
+          />
 
           <Route
             exact

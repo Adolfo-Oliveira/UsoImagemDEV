@@ -2,16 +2,16 @@
 const { uuid } = require('uuidv4')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const assinante = await queryInterface.sequelize.query('select * from assinante where nome = \'Adolfo S\'')
+    const assinatura = await queryInterface.sequelize.query('select * from assinatura where nome = \'Adolfo S\'')
 
-    if (assinante[0].length === 0) {
-      throw new Error('Nenhum usuário encontrado na tabela "assinante".')
+    if (assinatura[0].length === 0) {
+      throw new Error('Nenhum usuário encontrado na tabela "assinatura".')
     }
 
     await queryInterface.bulkInsert('imagem', [
       {
         id: uuid(),
-        fkAssinante: assinante[0][0].id,
+        fkAssinatura: assinatura[0][0].id,
         nomeArquivo: 'FotoAdolfo',
         dataUpLoad: new Date(),
         dataValidade: new Date('2024-10-29'),
@@ -20,7 +20,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        fkAssinante: assinante[0][0].id,
+        fkAssinatura: assinatura[0][0].id,
         nomeArquivo: 'FotoAdolfo',
         dataUpLoad: new Date(),
         dataValidade: new Date('2024-08-10'),

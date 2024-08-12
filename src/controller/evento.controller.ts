@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import { IController } from './controller.inteface'
 import Evento from '../model/evento.model'
+// import {QRCodeCanvas} from 'qrcode.react';
 const { v4: uuidv4 } = require('uuid')
 
-class Evento1 implements IController {
+class EventoController implements IController {
   async all (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
       const eventos = await Evento.findAll({
@@ -15,15 +16,26 @@ class Evento1 implements IController {
     }
   }
 
+  // async gerarQr (req: Request, res: Response, next: NextFunction): Promise<any> {
+  //   try {
+  //     const { link } = req.params
+  //     const retorno = <QRCodeCanvas value= ${link} />
+
+  //     res.status(200).json({ data: retorno })
+  //   } catch (error) {
+  //     res.status(401).json({ message: 'Registro não encontrado' })
+  //   }
+  // }
+
   async create (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
-      console.log('evento.controller: create')
+      // console.log('evento.controller: create')
       const { titulo, data, hora, descricao, categoria, eixo } =
         req.body
 
-      console.log(req.body)
+      // console.log(req.body)
       // console.log(JSON.stringify(req))
-      const newEvento = await Evento.create({
+      await Evento.create({
         id: uuidv4(),
         titulo,
         data,
@@ -61,4 +73,4 @@ class Evento1 implements IController {
   }
 }
 
-export default new Evento1()
+export default new EventoController()
