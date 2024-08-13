@@ -4,7 +4,7 @@ import QRCode from 'react-qr-code'
 const QrCode = ( props ) => {
   // const [link, setLink] = useState('')
 
-  const qrValue = `http://10.9.9.150:3000/linkEvento/${props.match.params.eventoId}`;
+  const qrValue = `${process.env.REACT_APP_DOMAIN}/linkEvento/${props.match.params.eventoId}`;
 
   return (
 
