@@ -53,6 +53,17 @@ const Home = (props) => {
   const handleChangeEixo = (event) => {
     setEixo(event.target.value);
   };
+
+  const handleClose = () => {
+    setTitulo("");
+    setData("");
+    setHora("");
+    setDescricao("");
+    setCategoria("");
+    setEixo("");
+    setOpen(false);
+  };
+
   const [caminho, setCaminho] = useState("");
 
   const [fkUsuario, setFkUsuario] = useState(null);
@@ -137,6 +148,13 @@ const Home = (props) => {
       setOpenMessageDialog(true);
       console.error("Erro ao salvar evento:", err);
     });
+    
+    setTitulo("");
+    setData("");
+    setHora("");
+    setDescricao("");
+    setCategoria("");
+    setEixo("");
   }
 
   return (
@@ -331,7 +349,7 @@ const Home = (props) => {
           /> */}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
+          <Button onClick={handleClose}>Cancelar</Button>
           <Button 
           onClick={(e) => onSave()} color="primary"
           >
