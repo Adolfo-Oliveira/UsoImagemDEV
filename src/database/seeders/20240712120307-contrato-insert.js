@@ -6,7 +6,7 @@ module.exports = {
 
   up: async (queryInterface, Sequelize) => {
     const assinatura = await queryInterface.sequelize.query('select * from assinatura where nome = \'Adolfo S\'')
-    const evento = await queryInterface.sequelize.query('select * from evento where titulo = \'Propaganda na palestra de Tecnologia\'')
+    const evento = await queryInterface.sequelize.query('select * from evento where titulo = \'Propaganda Salão de Beleza\'')
     const imagem = await queryInterface.sequelize.query('select * from imagem where nomeArquivo = \'FotoAdolfo\'')
     const termo = await queryInterface.sequelize.query('select * from termo where versao = \'2.0\'')
 

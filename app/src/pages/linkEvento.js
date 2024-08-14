@@ -314,7 +314,7 @@ const LinkEvento = (props) => {
     try {
       fetch(`${process.env.REACT_APP_DOMAIN_API}/api/aluno/${CPF}`, params)
         .then((response) => response.json())
-        .then((response) => {
+        .then(async (response) => {
           const { data } = response;
           setOpenLoadingDialog(false);
           if (data) {
@@ -325,7 +325,7 @@ const LinkEvento = (props) => {
               email: data.Email,
               ddd: data.DDD, 
               telefone: data.Telefone,
-              cep: '',
+              cep: data.CEP,
               logradouro: data.Logradouro || formData.logradouro,
               numero: data.numero || formData.numero,
               bairro: data.Bairro || formData.bairro,
@@ -333,6 +333,7 @@ const LinkEvento = (props) => {
               estado: data.Estado || formData.estado
             });
             setIsCpfValid(true);
+            await fetchAddress(data.CEP)
           }
         });
     } catch (error) {
@@ -521,7 +522,7 @@ const LinkEvento = (props) => {
                   variant="outlined"
                   required
                 />
-            {cepDataLoaded && (
+            {cepDataLoaded && ( 
               <>
                 <TextField
                   label="Logradouro"

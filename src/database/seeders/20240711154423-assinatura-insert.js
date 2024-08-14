@@ -7,10 +7,10 @@ module.exports = {
     await queryInterface.bulkInsert('assinatura', [
       {
         id: uuid(),
-        nome: 'Adolfo S',
+        nome: 'teste 2',
         ddd: '81',
         telefone: '999999999',
-        email: 'adolfosantos@pe.senac.br',
+        email: 'aaaa@pe.senac.br',
         cep: '99999999',
         logradouro: 'Avenida Ulisses Montarroyos',
         numero: '9999',
@@ -26,10 +26,10 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Ana S',
+        nome: 'Teste 2',
         ddd: '81',
         telefone: '888888888',
-        email: 'adolfosantos@hotmail.com',
+        email: 'aaaaaaaaa@hotmail.com',
         cep: '88888888',
         logradouro: 'Avenida Ulisses Montarroyos',
         numero: '9999',

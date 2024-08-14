@@ -1,14 +1,14 @@
 import controller from '../controller/aluno.controller'
 import { Router } from 'express'
 
-import routerMiddleware from '../middleware/router.middleware'
+// import routerMiddleware from '../middleware/router.middleware'
 
 class AlunoRouter {
   public router!: Router
 
   constructor () {
     this.router = Router()
-    this.router.use(routerMiddleware.authenticated)
+    // this.router.use(routerMiddleware.authenticated)
     this.routers()
   }
 
