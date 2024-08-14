@@ -2,7 +2,7 @@
 const { uuid } = require('uuidv4')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const assinatura = await queryInterface.sequelize.query('select * from assinatura where nome = \'Adolfo S\'')
+    const assinatura = await queryInterface.sequelize.query('select * from assinatura where nome = \'Teste1\'')
 
     if (assinatura[0].length === 0) {
       throw new Error('Nenhum usuário encontrado na tabela "assinatura".')

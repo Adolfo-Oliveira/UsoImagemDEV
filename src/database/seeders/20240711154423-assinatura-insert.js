@@ -7,7 +7,7 @@ module.exports = {
     await queryInterface.bulkInsert('assinatura', [
       {
         id: uuid(),
-        nome: 'teste 2',
+        nome: 'Teste1',
         ddd: '81',
         telefone: '999999999',
         email: 'aaaa@pe.senac.br',
@@ -26,7 +26,7 @@ module.exports = {
       },
       {
         id: uuid(),
-        nome: 'Teste 2',
+        nome: 'Teste2',
         ddd: '81',
         telefone: '888888888',
         email: 'aaaaaaaaa@hotmail.com',
