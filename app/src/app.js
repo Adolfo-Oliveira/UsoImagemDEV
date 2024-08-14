@@ -6,6 +6,7 @@ import Login from "./pages/login";
 import Masterpage from "./masterpage";
 import Logout from './pages/logout';
 import PrivateRoute from './components/private-router';
+import LinkEvento from "./pages/linkEvento";
 
 const GlobalStyle = createGlobalStyle`  
 
@@ -17,6 +18,7 @@ const App = () => {
       <GlobalStyle />
       <Switch>
         <Route exact path="/login" render={(props) => <Login {...props} />} />
+        <Route exact path="/linkEvento/:eventoId/" render={(props) => <LinkEvento {...props} />} />
         <PrivateRoute exact path="/logout" component={Logout} />
         <PrivateRoute path="/" component={Masterpage} />        
       </Switch>

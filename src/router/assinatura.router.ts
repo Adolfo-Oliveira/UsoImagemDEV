@@ -1,14 +1,14 @@
 import controller from '../controller/assinatura.controller'
 import { Router } from 'express'
 
-import routerMiddleware from '../middleware/router.middleware'
+// import routerMiddleware from '../middleware/router.middleware'
 
 class AssinaturaRouter {
-  public router!: Router
+  public router: Router
 
   constructor () {
     this.router = Router()
-    this.router.use(routerMiddleware.authenticated)
+    // this.router.use(routerMiddleware.authenticated)
     this.routers()
   }
 

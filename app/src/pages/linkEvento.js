@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -18,6 +17,7 @@ const getCookie = require("../utils/getCookie");
 
 const LinkEvento = (props) => {
 
+  // alert(JSON.stringify(props.match.params))
   const { eventoId } = props.match.params
   const [ipAddress, setIpAddress] = useState('');
 
