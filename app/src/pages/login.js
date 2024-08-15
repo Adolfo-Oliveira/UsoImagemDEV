@@ -30,6 +30,12 @@ const Login = () => {
 
   const handleCloseMessageDialog = () => setOpenMessageDialog(false)
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      btEntrar();
+    }
+  };
+
   const btEntrar = () => {
     setOpenDialog(true)
     const params = { 
@@ -131,6 +137,7 @@ const Login = () => {
                 autoComplete="email"
                 autoFocus
                 onChange={e => setEmail(e.target.value)}
+                onKeyPress={handleKeyPress} 
               />
               <TextField
                 margin="normal"
@@ -142,6 +149,7 @@ const Login = () => {
                 id="password"
                 autoComplete="current-password"
                 onChange={e => setPassword(e.target.value)}
+                onKeyPress={handleKeyPress} 
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

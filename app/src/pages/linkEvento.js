@@ -11,6 +11,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
 const getCookie = require("../utils/getCookie");
@@ -407,11 +410,19 @@ const LinkEvento = (props) => {
 
   return (
     <>
+    <AppBar position="static" style={{ backgroundColor: "#004A8D", marginBottom: '20px' }}>
+        <Toolbar style={{justifyContent: 'center'}}>
+          <Typography variant="h6">
+            SENAC - Uso de Imagem
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Box
         component="form"
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 400, margin: 'auto', mt: 5 }}
         onSubmit={handleSubmit}
       >
+        <h2><b>Preencha os dados</b></h2>
         {!isCpfChecked ? (
           <>
             <TextField

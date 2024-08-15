@@ -60,7 +60,7 @@ const adjustDate = (dateString) => {
             onClick={() => window.location.href = `${process.env.REACT_APP_DOMAIN}/QrCode/${evento.id}`}
             style={{ marginTop: "1rem", marginLeft: "10px", backgroundColor: "#004A8D" }}
           >
-            Link Assinatura do Evento
+            Link para Assinatura do Evento
           </Button>
         </CardContent>
       </Card>
