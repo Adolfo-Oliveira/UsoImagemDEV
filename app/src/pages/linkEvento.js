@@ -43,14 +43,6 @@ const LinkEvento = (props) => {
     nome: '',
     dataNascimento: '',
     email: '',
-    ddd: '', 
-    telefone: '',
-    cep: '',
-    logradouro: '',
-    numero: '',
-    bairro: '',
-    cidade: '',
-    estado: '',
     fkEvento: eventoId,
   });
   const [isCpfChecked, setIsCpfChecked] = useState(false);
@@ -90,9 +82,9 @@ const LinkEvento = (props) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    if (name === 'cep' && value.length === 8) {
-      fetchAddress(value);
-    }
+    // if (name === 'cep' && value.length === 8) {
+    //   fetchAddress(value);
+    // }
   };
 
   const validarCPF = (cpf) => {
@@ -170,29 +162,11 @@ const LinkEvento = (props) => {
   //   });
   // };
 
-  const handleNewCpf = () => {
-    // Recarregar a página para redefinir o estado
-    window.location.reload();
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.cpf || !formData.nome || !formData.email || !formData.ddd || !formData.telefone || !formData.cep) {
+    if (!formData.cpf || !formData.nome || !formData.email) {
       alert('Todos os campos obrigatórios devem ser preenchidos.');
-      return;
-    }
-    
-    if (formData.cep.length !== 8) {
-      alert('CEP deve ter 8 caracteres.');
-      return;
-    }
-    if (formData.ddd.replace(/\D/g, '').length !== 2) {
-      alert('DDD deve ter 2 caracteres.');
-      return;
-    }
-    if (formData.telefone.replace(/\D/g, '').length !== 9) {
-      alert('Telefone deve ter 9 dígitos.');
       return;
     }
     if (!termsAccepted) {
@@ -242,14 +216,6 @@ const LinkEvento = (props) => {
       nome: formData.nome,
       dataNasc: formData.dataNascimento,
       email: formData.email,
-      ddd: formData.ddd,
-      telefone: formData.telefone,
-      cep: formData.cep,
-      logradouro: formData.logradouro,
-      numero: formData.numero,
-      bairro: formData.bairro,
-      cidade: formData.cidade,
-      estado: formData.estado,
       fkEvento: eventoId,
       ip: ipAddress,
     })
@@ -330,18 +296,9 @@ const LinkEvento = (props) => {
               cpf: data.CPF,
               nome: data.Nome,
               dataNascimento: data.DataNascimento.substring(0, 10),
-              email: data.Email,
-              ddd: data.DDD, 
-              telefone: data.Telefone,
-              cep: data.CEP,
-              logradouro: data.Logradouro || formData.logradouro,
-              numero: data.numero || formData.numero,
-              bairro: data.Bairro || formData.bairro,
-              cidade: data.Cidade || formData.cidade,
-              estado: data.Estado || formData.estado
+              email: data.Email
             });
             setIsCpfValid(true);
-            await fetchAddress(data.CEP)
           }
         });
     } catch (error) {
@@ -349,29 +306,29 @@ const LinkEvento = (props) => {
     }
   }
 
-  async function fetchAddress(cep) {
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-      const data = await response.json();
-      if (!data.erro) {
-        setFormData(prevFormData => ({
-          ...prevFormData,
-          logradouro: data.logradouro,
-          bairro: data.bairro,
-          cidade: data.localidade,
-          estado: data.uf
-        }));
-        setCepDataLoaded(true);
-      } else {
-        alert('CEP não encontrado.');
-        setCepDataLoaded(false);
-      }
-    } catch (error) {
-      console.error('Error fetching address:', error);
-      alert('Erro ao buscar endereço.');
-      setCepDataLoaded(false);
-    }
-  }
+  // async function fetchAddress(cep) {
+  //   try {
+  //     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+  //     const data = await response.json();
+  //     if (!data.erro) {
+  //       setFormData(prevFormData => ({
+  //         ...prevFormData,
+  //         logradouro: data.logradouro,
+  //         bairro: data.bairro,
+  //         cidade: data.localidade,
+  //         estado: data.uf
+  //       }));
+  //       setCepDataLoaded(true);
+  //     } else {
+  //       alert('CEP não encontrado.');
+  //       setCepDataLoaded(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching address:', error);
+  //     alert('Erro ao buscar endereço.');
+  //     setCepDataLoaded(false);
+  //   }
+  // }
 
   const handleOpenTerms = () => {
     setOpenTerms(true);
@@ -397,14 +354,14 @@ const LinkEvento = (props) => {
     return `${day}/${month}/${year}`;
   };
 
-  const formatPhone = (ddd, phone) => {
-    return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
-  };
+  // const formatPhone = (ddd, phone) => {
+  //   return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
+  // };
 
-  const formatCep = (cep) => {
-    return cep.replace(/\D/g, '')
-      .replace(/^(\d{5})(\d{3})$/, '$1-$2');
-  };
+  // const formatCep = (cep) => {
+  //   return cep.replace(/\D/g, '')
+  //     .replace(/^(\d{5})(\d{3})$/, '$1-$2');
+  // };
 
   const handleDataNascimentoBlur = () => {
     const year = new Date(formData.dataNascimento).getFullYear();
@@ -423,195 +380,266 @@ const LinkEvento = (props) => {
         </Toolbar>
       </AppBar>
       <Box
-        component="form"
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 400, margin: 'auto', mt: 5 }}
-        onSubmit={handleSubmit}
-      >
-        <h2><b>Preencha os dados</b></h2>
-        {!isCpfChecked ? (
-          <>
-            <TextField
-              label="CPF"
-              name="cpf"
-              value={formData.cpf}
-              onChange={handleChange}
-              variant="outlined"
-              required
-            />
-            <Button variant="contained" color="primary" onClick={handleCpfCheck} style={{ backgroundColor: "#004A8D" }}>
-              Verificar CPF
-            </Button>
-          </>
-        ) : (
-          <Button variant="contained" color="primary" onClick={handleNewCpf} style={{ backgroundColor: "#004A8D" }}>
-            Digitar Novo CPF
-          </Button>
-        )}
-        
-        {isCpfChecked && (
-          <>
-          <InputMask
-            mask="999.999.999-99"
-            value={formData.cpf}
+  component="form"
+  sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 400, margin: 'auto', mt: 5 }}
+  onSubmit={handleSubmit}
+>
+  
+  {!isCpfChecked ? (
+    <>
+      <TextField
+        label="CPF"
+        name="cpf"
+        value={formData.cpf}
+        onChange={handleChange}
+        variant="outlined"
+        required
+      />
+      <Button variant="contained" color="primary" onClick={handleCpfCheck} style={{ backgroundColor: "#004A8D" }}>
+        Verificar CPF
+      </Button>
+    </>
+  ) : isCpfValid ? (
+    <>
+      <Button onClick={handleOpenTerms} style={{ color: "#004A8D" }}>
+        Termos e Condições
+      </Button>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={termsAccepted}
+            onChange={handleTermsChange}
+            name="termsAccepted"
+            color="primary"
+          />
+        }
+        style={{ justifyContent: 'center', color: "#004A8D" }}
+        label="Eu li e aceito os termos e condições"
+      />
+      {isAdult ? (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+    <Button 
+      type="submit" 
+      variant="contained" 
+      color="primary" 
+      style={{ backgroundColor: "#004A8D", width: '100%' }}
+    >
+      Enviar
+    </Button>
+    <Button 
+      variant="contained" 
+      color="primary" 
+      style={{ backgroundColor: "#004A8D", width: '100%' }} 
+      onClick={() => window.location.reload()}
+    >
+      Voltar
+    </Button>
+  </div>
+) : (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+    <Button 
+      type="submit" 
+      variant="contained" 
+      color="primary" 
+      style={{ backgroundColor: "#004A8D", width: '100%' }}
+    >
+      Compartilhar
+    </Button>
+    <Button 
+      variant="contained" 
+      color="primary" 
+      style={{ backgroundColor: "#004A8D", width: '100%' }} 
+      onClick={() => window.location.reload()}
+    >
+      Voltar
+    </Button>
+  </div>
+)}
+
+    </>
+  ) : (
+    <>
+      <h2><b>Preencha os dados</b></h2>
+      <InputMask mask="999.999.999-99" value={formData.cpf} disabled>
+        {() => (
+          <TextField
+            label="CPF"
+            name="cpf"
+            variant="outlined"
+            required
             disabled
-          >
+          />
+        )}
+      </InputMask>
+      <TextField
+        label="Nome"
+        name="nome"
+        value={formData.nome}
+        onChange={handleChange}
+        variant="outlined"
+        required
+        disabled={isCpfValid}
+      />
+      <TextField
+        label="Data de Nascimento"
+        name="dataNascimento"
+        type="date"
+        value={formData.dataNascimento}
+        onChange={handleChange}
+        variant="outlined"
+        required
+        InputLabelProps={{
+          shrink: true,
+        }}
+        disabled={isCpfValid}
+      />
+      <TextField
+        label="Email"
+        name="email"
+        type="email"
+        value={formData.email}
+        onChange={handleChange}
+        variant="outlined"
+        required
+      />
+      {/* <Box sx={{ display: 'flex', gap: 2 }}>
+        <InputMask mask="99" value={formData.ddd} onChange={handleChange}>
           {() => (
             <TextField
-              label="CPF"
-              name="cpf"
+              label="DDD"
+              name="ddd"
               variant="outlined"
               required
-              disabled
+              sx={{ width: '20%' }}
             />
           )}
         </InputMask>
+        <InputMask mask="999999999" value={formData.telefone} onChange={handleChange}>
+          {() => (
             <TextField
-              label="Nome"
-              name="nome"
-              value={formData.nome}
-              onChange={handleChange}
+              label="Telefone"
+              name="telefone"
               variant="outlined"
               required
-              disabled={isCpfValid}
+              sx={{ width: '80%' }}
             />
-            <TextField
-              label="Data de Nascimento"
-              name="dataNascimento"
-              type="date"
-              value={formData.dataNascimento}
-              onChange={handleChange}
-              variant="outlined"
-              required
-              InputLabelProps={{
-                shrink: true,
-              }}
-              // onBlur={handleDataNascimentoBlur}
-              disabled={isCpfValid}
-            />
-            
-            <TextField
-              label="Email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              variant="outlined"
-              required
-            />
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <InputMask
-                mask="99"
-                value={formData.ddd}
-                onChange={handleChange}
-              >
-                {() => (
-                  <TextField
-                    label="DDD"
-                    name="ddd"
-                    variant="outlined"
-                    required
-                    sx={{ width: '20%' }}
-                  />
-                )}
-              </InputMask>
-              <InputMask
-                mask="999999999"
-                value={formData.telefone}
-                onChange={handleChange}
-              >
-                {() => (
-                  <TextField
-                    label="Telefone"
-                    name="telefone"
-                    variant="outlined"
-                    required
-                    sx={{ width: '80%' }}
-                  />
-                )}
-              </InputMask>
-            </Box>
-            <TextField
-                  value={formData.cep}
-                  onChange={handleChange}
-                  label="CEP"
-                  name="cep"
-                  variant="outlined"
-                  required
-                />
-            {cepDataLoaded && ( 
-              <>
-                <TextField
-                  label="Logradouro"
-                  name="logradouro"
-                  value={formData.logradouro}
-                  onChange={handleChange}
-                  variant="outlined"
-                  required
-                  disabled
-                />
-                <TextField
-                  label="Número"
-                  name="numero"
-                  value={formData.numero}
-                  onChange={handleChange}
-                  variant="outlined"
-                />
-                <TextField
-                  label="Bairro"
-                  name="bairro"
-                  value={formData.bairro}
-                  onChange={handleChange}
-                  variant="outlined"
-                  required
-                  disabled
-                />
-                <TextField
-                  label="Cidade"
-                  name="cidade"
-                  value={formData.cidade}
-                  onChange={handleChange}
-                  variant="outlined"
-                  required
-                  disabled
-                />
-                <TextField
-                  label="Estado"
-                  name="estado"
-                  value={formData.estado}
-                  onChange={handleChange}
-                  variant="outlined"
-                  required
-                  disabled
-                />
-              </>
-            )}
-            <Button onClick={handleOpenTerms} style={{ color: "#004A8D" }}>
-              Termos e Condições
-            </Button>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={termsAccepted}
-                  onChange={handleTermsChange}
-                  name="termsAccepted"
-                  color="primary"
-                />
-              }
-              style={{ justifyContent: 'center', color: "#004A8D" }}
-              label="Eu li e aceito os termos e condições"
-            />
-            {isAdult ? (
-              <Button type="button" onClick={handleSubmit} variant="contained" color="primary" style={{ backgroundColor: "#004A8D" }}>
-              Enviar
-            </Button>
-          ) : (
-            <Button type="button" onClick={handleSubmit} variant="contained" color="primary" style={{ backgroundColor: "#004A8D" }}>
-              Compartilhar
-            </Button>
-            )}
-          </>
-        )}
+          )}
+        </InputMask>
       </Box>
+      <TextField
+        value={formData.cep}
+        onChange={handleChange}
+        label="CEP"
+        name="cep"
+        variant="outlined"
+        required
+      /> */}
+      {/* {cepDataLoaded && (
+        <>
+          <TextField
+            label="Logradouro"
+            name="logradouro"
+            value={formData.logradouro}
+            onChange={handleChange}
+            variant="outlined"
+            required
+            disabled
+          />
+          <TextField
+            label="Número"
+            name="numero"
+            value={formData.numero}
+            onChange={handleChange}
+            variant="outlined"
+          />
+          <TextField
+            label="Bairro"
+            name="bairro"
+            value={formData.bairro}
+            onChange={handleChange}
+            variant="outlined"
+            required
+            disabled
+          />
+          <TextField
+            label="Cidade"
+            name="cidade"
+            value={formData.cidade}
+            onChange={handleChange}
+            variant="outlined"
+            required
+            disabled
+          />
+          <TextField
+            label="Estado"
+            name="estado"
+            value={formData.estado}
+            onChange={handleChange}
+            variant="outlined"
+            required
+            disabled
+          />
+        </>
+      )} */}
+      <Button onClick={handleOpenTerms} style={{ color: "#004A8D" }}>
+        Termos e Condições
+      </Button>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={termsAccepted}
+            onChange={handleTermsChange}
+            name="termsAccepted"
+            color="primary"
+          />
+        }
+        style={{ justifyContent: 'center', color: "#004A8D" }}
+        label="Eu li e aceito os termos e condições"
+      />
+      {isAdult ? (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+    <Button 
+      type="submit" 
+      variant="contained" 
+      color="primary" 
+      style={{ backgroundColor: "#004A8D", width: '100%' }}
+    >
+      Enviar
+    </Button>
+    <Button 
+      variant="contained" 
+      color="primary" 
+      style={{ backgroundColor: "#004A8D", width: '100%' }} 
+      onClick={() => window.location.reload()}
+    >
+      Voltar
+    </Button>
+  </div>
+) : (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+    <Button 
+      type="submit" 
+      variant="contained" 
+      color="primary" 
+      style={{ backgroundColor: "#004A8D", width: '100%' }}
+    >
+      Compartilhar
+    </Button>
+    <Button 
+      variant="contained" 
+      color="primary" 
+      style={{ backgroundColor: "#004A8D", width: '100%' }} 
+      onClick={() => window.location.reload()}
+    >
+      Voltar
+    </Button>
+  </div>
+)}
+
+    </>
+  )}
+</Box>
+
 
       <Dialog
         open={openTerms}
@@ -647,13 +675,6 @@ const LinkEvento = (props) => {
             <strong>Nome:</strong> {formData.nome ? formData.nome : ''} <br />
             <strong>Data de Nascimento:</strong> {formData.dataNascimento ? formatDate(formData.dataNascimento) : ''} <br />
             <strong>Email:</strong> {formData.email ? formData.email : ''} <br />
-            <strong>Telefone:</strong> {formData.ddd && formData.telefone ? formatPhone(formData.ddd, formData.telefone) : ''} <br />
-            <strong>CEP:</strong> {formData.cep ? formatCep(formData.cep) : ''} <br />
-            <strong>Logradouro:</strong> {formData.logradouro ? formData.logradouro : ''} <br />
-            <strong>Número:</strong> {formData.numero ? formData.numero : ''} <br />
-            <strong>Bairro:</strong> {formData.bairro ? formData.bairro : ''} <br />
-            <strong>Cidade:</strong> {formData.cidade ? formData.cidade : ''} <br />
-            <strong>Estado:</strong> {formData.estado ? formData.estado : ''} <br /><br />
             Deseja confirmar a assinatura?
           </DialogContentText>
         </DialogContent>

@@ -18,50 +18,10 @@ Assinatura.init(
       allowNull: false
     },
 
-    ddd: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-
-    telefone: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
-    },
-
-    cep: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-
-    logradouro: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-
-    numero: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-
-    bairro: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-
-    cidade: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-
-    estado: {
-      type: DataTypes.STRING,
-      allowNull: false
     },
 
     dataNasc: {

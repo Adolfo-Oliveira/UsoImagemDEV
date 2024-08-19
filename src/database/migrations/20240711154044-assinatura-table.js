@@ -30,36 +30,6 @@ module.exports = {
         unique: true
       },
 
-      cep: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      logradouro: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      numero: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      bairro: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      cidade: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      estado: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
       dataNasc: {
         type: Sequelize.DATEONLY,
         allowNull: false
