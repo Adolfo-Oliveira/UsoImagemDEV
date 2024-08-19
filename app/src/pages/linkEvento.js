@@ -177,6 +177,11 @@ const LinkEvento = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData.cpf || !formData.nome || !formData.email || !formData.ddd || !formData.telefone || !formData.cep) {
+      alert('Todos os campos obrigatórios devem ser preenchidos.');
+      return;
+    }
     
     if (formData.cep.length !== 8) {
       alert('CEP deve ter 8 caracteres.');
@@ -638,20 +643,21 @@ const LinkEvento = (props) => {
         <DialogContent>
           <DialogContentText id="confirm-dialog-description">
             <b>Você está prestes a assinar com os seguintes dados:</b><br /><br />
-            <strong>CPF:</strong> {formatCpf(formData.cpf)}<br />
-            <strong>Nome:</strong> {formData.nome}<br />
-            <strong>Data de Nascimento:</strong> {formatDate(formData.dataNascimento)}<br />
-            <strong>Email:</strong> {formData.email}<br />
-            <strong>Telefone:</strong> {formatPhone(formData.ddd, formData.telefone)}<br />
-            <strong>CEP:</strong> {formatCep(formData.cep)}<br />
-            <strong>Logradouro:</strong> {formData.logradouro}<br />
-            <strong>Número:</strong> {formData.numero}<br />
-            <strong>Bairro:</strong> {formData.bairro}<br />
-            <strong>Cidade:</strong> {formData.cidade}<br />
-            <strong>Estado:</strong> {formData.estado}<br /><br />
+            <strong>CPF:</strong> {formData.cpf ? formatCpf(formData.cpf) : ''} <br />
+            <strong>Nome:</strong> {formData.nome ? formData.nome : ''} <br />
+            <strong>Data de Nascimento:</strong> {formData.dataNascimento ? formatDate(formData.dataNascimento) : ''} <br />
+            <strong>Email:</strong> {formData.email ? formData.email : ''} <br />
+            <strong>Telefone:</strong> {formData.ddd && formData.telefone ? formatPhone(formData.ddd, formData.telefone) : ''} <br />
+            <strong>CEP:</strong> {formData.cep ? formatCep(formData.cep) : ''} <br />
+            <strong>Logradouro:</strong> {formData.logradouro ? formData.logradouro : ''} <br />
+            <strong>Número:</strong> {formData.numero ? formData.numero : ''} <br />
+            <strong>Bairro:</strong> {formData.bairro ? formData.bairro : ''} <br />
+            <strong>Cidade:</strong> {formData.cidade ? formData.cidade : ''} <br />
+            <strong>Estado:</strong> {formData.estado ? formData.estado : ''} <br /><br />
             Deseja confirmar a assinatura?
           </DialogContentText>
         </DialogContent>
+
         <DialogActions>
             <Button onClick={handleCancelSubmit} color="primary">
               Cancelar
