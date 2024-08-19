@@ -50,9 +50,9 @@ const adjustDate = (dateString) => {
   return date.toLocaleDateString('pt-BR');
 };
 
-const formatPhone = (ddd, phone) => {
-    return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
-  };
+// const formatPhone = (ddd, phone) => {
+//     return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
+//   };
 
   const formatCPF = (cpf) => {
     cpf = cpf.replace(/\D/g, "");
@@ -60,11 +60,11 @@ const formatPhone = (ddd, phone) => {
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
   };
 
-  const formatCEP = (cep) => {
-    cep = cep.replace(/\D/g, "");
+  // const formatCEP = (cep) => {
+  //   cep = cep.replace(/\D/g, "");
   
-    return cep.replace(/(\d{5})(\d{3})/, "$1-$2");
-  };
+  //   return cep.replace(/(\d{5})(\d{3})/, "$1-$2");
+  // };
   
     const handleFiltroChange = (assinatura) => {
       setFiltroNome(assinatura.target.value);
@@ -251,17 +251,17 @@ const formatPhone = (ddd, phone) => {
                     <b>Email:</b> {assinatura.email}
                   </Typography>
 
-                  <Typography color="text.secondary">
+                  {/* <Typography color="text.secondary">
                     <b>Telefone:</b> {formatPhone(assinatura.ddd, assinatura.telefone)}
-                  </Typography>
+                  </Typography> */}
                   
                   <Typography color="text.secondary">
                     <b>Data da Assinatura:</b> {adjustDate(assinatura.createdAt)}
                   </Typography>
 
-                  <Typography color="text.secondary">
+                  {/* <Typography color="text.secondary">
                     <b>CEP:</b> {formatCEP(assinatura.cep)}
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </Card>
               

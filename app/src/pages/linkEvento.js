@@ -401,9 +401,14 @@ const LinkEvento = (props) => {
     </>
   ) : isCpfValid ? (
     <>
-      <Button onClick={handleOpenTerms} style={{ color: "#004A8D" }}>
-        Termos e Condições
-      </Button>
+      <DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal' }}>
+        TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES
+      </DialogTitle>
+      <DialogContentText id="terms-dialog-description" style={{ textAlign: 'justify', fontSize: '16px' }}>
+        Autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+        A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
+        O participante poderá, a qualquer tempo, requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
+      </DialogContentText>
       <FormControlLabel
         control={
           <Checkbox
