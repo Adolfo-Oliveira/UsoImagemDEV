@@ -177,6 +177,11 @@ const LinkEvento = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData.cpf || !formData.nome || !formData.email || !formData.ddd || !formData.telefone || !formData.cep) {
+      alert('Todos os campos obrigatórios devem ser preenchidos.');
+      return;
+    }
     
     if (formData.cep.length !== 8) {
       alert('CEP deve ter 8 caracteres.');
