@@ -14,50 +14,10 @@ module.exports = {
         allowNull: false
       },
 
-      ddd: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      telefone: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
-      },
-
-      cep: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      logradouro: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      numero: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      bairro: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      cidade: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      estado: {
-        type: Sequelize.STRING,
-        allowNull: false
       },
 
       dataNasc: {

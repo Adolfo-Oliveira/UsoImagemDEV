@@ -18,7 +18,7 @@ class AssinaturaController implements IController {
 
   async create (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { cpf, nome, dataNasc, email, ddd, telefone, cep, logradouro, numero, bairro, cidade, estado, fkEvento, ip } = req.body
+      const { cpf, nome, dataNasc, email, fkEvento, ip } = req.body
       const localTime = moment.tz(new Date(), 'America/Sao_Paulo').format()
 
       console.log(req.body)
@@ -29,14 +29,6 @@ class AssinaturaController implements IController {
         nome,
         dataNasc,
         email,
-        ddd,
-        telefone,
-        cep,
-        logradouro,
-        numero,
-        bairro,
-        cidade,
-        estado,
         fkEvento,
         ip,
         createdAt: localTime,
