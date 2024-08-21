@@ -405,10 +405,10 @@ const LinkEvento = (props) => {
         TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES
       </DialogTitle>
       <DialogContentText id="terms-dialog-description" style={{ textAlign: 'justify', fontSize: '16px' }}>
-        Autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
-        A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
-        O participante poderá, a qualquer tempo, requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
-      </DialogContentText>
+            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{formatDate(formData.dataNascimento)}</strong>, CPF: <strong>{formatCpf(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong> autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+            A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
+            A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
+          </DialogContentText>
       <FormControlLabel
         control={
           <Checkbox
@@ -442,14 +442,16 @@ const LinkEvento = (props) => {
   </div>
 ) : (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
-    <Button 
-      type="submit" 
-      variant="contained" 
-      color="primary" 
-      style={{ backgroundColor: "#004A8D", width: '100%' }}
-    >
-      Compartilhar
+    <Button
+        // type="submit"
+        variant="contained"
+        color="primary"
+        style={{ backgroundColor: "#004A8D", width: '100%' }}
+        // onClick={() => window.location.href = '/compartilhar/${assinaturaId}'}
+      >
+        Compartilhar
     </Button>
+
     <Button 
       variant="contained" 
       color="primary" 
@@ -622,13 +624,14 @@ const LinkEvento = (props) => {
   </div>
 ) : (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
-    <Button 
-      type="submit" 
-      variant="contained" 
-      color="primary" 
-      style={{ backgroundColor: "#004A8D", width: '100%' }}
-    >
-      Compartilhar
+    <Button
+        // type="submit"
+        variant="contained"
+        color="primary"
+        style={{ backgroundColor: "#004A8D", width: '100%' }}
+        // onClick={() => window.location.href = '/compartilhar/${assinaturaId}'}
+      >
+        Compartilhar
     </Button>
     <Button 
       variant="contained" 
@@ -652,12 +655,12 @@ const LinkEvento = (props) => {
         aria-labelledby="terms-dialog-title"
         aria-describedby="terms-dialog-description"
       >
-        <DialogTitle id="terms-dialog-title">TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES</DialogTitle>
+        <DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal' }}>TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES</DialogTitle>
         <DialogContent>
-          <DialogContentText id="terms-dialog-description">
-            Autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+          <DialogContentText id="terms-dialog-description" style={{ textAlign: 'justify', fontSize: '16px' }}>
+            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{formatDate(formData.dataNascimento)}</strong>, CPF: <strong>{formatCpf(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong> autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
             A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
-            O participante poderá, a qualquer tempo, requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
+            A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
