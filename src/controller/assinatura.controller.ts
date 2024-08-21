@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { IController } from './controller.inteface'
 import Assinatura from '../model/assinatura.model'
 import moment from 'moment-timezone'
+import emailUtils from '../utils/email.utils'
 const { v4: uuidv4 } = require('uuid')
 
 class AssinaturaController implements IController {
@@ -34,6 +35,15 @@ class AssinaturaController implements IController {
         createdAt: localTime,
         updatedAt: localTime
       })
+
+      const txEmail = `
+        <b>${nome} sua assinatura dos direitos de imagem para o SENAC foi realizada com sucesso. </b><br>
+    <br/>
+    
+    `
+
+      // emailUtils.enviar('adolfoooliveira@gmail.com', 'txEmailCandidato')
+      emailUtils.enviar(email, txEmail)
 
       res.status(200).json({ message: 'Assinatura realizada com sucesso' })
     } catch (error: any) {
