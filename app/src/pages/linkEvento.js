@@ -205,8 +205,8 @@ const LinkEvento = (props) => {
   const handleConfirmSubmit = () => {
   const token = getCookie('_token_uso_imagem');
 
-  const adjustedDate = new Date(formData.dataNascimento);
-  adjustedDate.setDate(adjustedDate.getDate() + 1);
+  // const adjustedDate = new Date(formData.dataNascimento);
+  // adjustedDate.setDate(adjustedDate.getDate() + 1);
 
   const params = {
     method: 'POST',
@@ -217,7 +217,8 @@ const LinkEvento = (props) => {
     body: JSON.stringify({
       cpf: formData.cpf,
       nome: formData.nome,
-      dataNasc: adjustedDate.toISOString().substring(0, 10),
+      // dataNasc: adjustedDate.toISOString().substring(0, 10),
+      dataNasc: formData.dataNascimento,
       email: formData.email,
       fkEvento: eventoId,
       ip: ipAddress,
