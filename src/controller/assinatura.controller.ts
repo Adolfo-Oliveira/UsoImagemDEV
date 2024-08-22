@@ -37,7 +37,7 @@ class AssinaturaController implements IController {
       })
 
       const txEmail = `
-        <b>${nome} sua assinatura dos direitos de imagem para o SENAC foi realizada com sucesso. </b><br>
+        <b>${nome}, sua assinatura dos direitos de imagem para o SENAC foi realizada com sucesso. </b><br>
     <br/>
     
     `
