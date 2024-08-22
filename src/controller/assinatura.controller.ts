@@ -21,8 +21,7 @@ class AssinaturaController implements IController {
     try {
       const { cpf, nome, dataNasc, email, fkEvento, ip } = req.body
       const localTime = moment.tz(new Date(), 'America/Recife').format()
-      const dataNascLocal = moment.tz(dataNasc, 'America/Recife').format('YYYY-MM-DD HH:mm:ss');
-
+      const dataNascLocal = moment.tz(dataNasc, 'America/Recife').format('YYYY-MM-DD HH:mm:ss')
 
       console.log(req.body)
 
