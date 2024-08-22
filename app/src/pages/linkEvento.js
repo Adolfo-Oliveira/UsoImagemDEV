@@ -205,6 +205,9 @@ const LinkEvento = (props) => {
   const handleConfirmSubmit = () => {
   const token = getCookie('_token_uso_imagem');
 
+  const adjustedDate = new Date(formData.dataNascimento);
+  adjustedDate.setDate(adjustedDate.getDate() + 1);
+
   const params = {
     method: 'POST',
     headers: {
@@ -214,7 +217,7 @@ const LinkEvento = (props) => {
     body: JSON.stringify({
       cpf: formData.cpf,
       nome: formData.nome,
-      dataNasc: formData.dataNascimento,
+      dataNasc: adjustedDate.toISOString().substring(0, 10),
       email: formData.email,
       fkEvento: eventoId,
       ip: ipAddress,
@@ -363,12 +366,12 @@ const LinkEvento = (props) => {
   //     .replace(/^(\d{5})(\d{3})$/, '$1-$2');
   // };
 
-  const handleDataNascimentoBlur = () => {
-    const year = new Date(formData.dataNascimento).getFullYear();
-    if (year > 1900) {
-      setIsDataNascimentoDisabled(true);
-    }
-  };
+  // const handleDataNascimentoBlur = () => {
+  //   const year = new Date(formData.dataNascimento).getFullYear();
+  //   if (year > 1900) {
+  //     setIsDataNascimentoDisabled(true);
+  //   }
+  // };
 
   return (
     <>
