@@ -25,22 +25,6 @@ class AssinaturaController implements IController {
 
       console.log(req.body)
 
-      const txEmail = `
-        <b>${nome}, sua assinatura dos direitos de imagem para o SENAC foi realizada com sucesso. </b><br>
-        <br/>
-      `
-
-      // Tenta enviar o e-mail antes de salvar a assinatura
-      try {
-        await emailUtils.enviar(email, txEmail)
-      } catch (emailError) {
-        console.error('Erro ao enviar e-mail:', emailError)
-        return res.status(500).json({
-          message: 'Erro ao enviar o e-mail de confirmação. A assinatura não foi realizada.'
-        })
-      }
-
-      // Se o e-mail foi enviado com sucesso, salva a assinatura
       await Assinatura.create({
         id: uuidv4(),
         cpf,
@@ -53,7 +37,21 @@ class AssinaturaController implements IController {
         updatedAt: localTime
       })
 
-      res.status(200).json({ message: 'Assinatura realizada com sucesso' })
+      const txEmail = `
+        <b>${nome}, sua assinatura dos direitos de imagem para o SENAC foi realizada com sucesso. </b><br>
+        <br/>
+      `
+
+      // Tenta enviar o email e captura erros, se houver
+      try {
+        await emailUtils.enviar(email, txEmail)
+        res.status(200).json({ message: 'Assinatura realizada com sucesso' })
+      } catch (emailError) {
+        console.error('Erro ao enviar e-mail:', emailError)
+        res.status(200).json({
+          message: 'Assinatura realizada com sucesso, mas ocorreu um erro ao enviar o e-mail de confirmação.'
+        })
+      }
     } catch (error: any) {
       console.error('Erro ao assinar:', error)
 
