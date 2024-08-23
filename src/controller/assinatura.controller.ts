@@ -8,12 +8,12 @@ const { v4: uuidv4 } = require('uuid')
 class AssinaturaController implements IController {
   async all (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      await Assinatura.findAll({
+      const assinaturas = await Assinatura.findAll({
         order: [['nome', 'asc']]
       })
-      res.status(200).json({ data: Assinatura })
+      res.status(200).json({ data: assinaturas })
     } catch (error) {
-      res.status(401).json({ message: 'assinatura não encontrada' })
+      res.status(401).json({ message: 'Assinatura não encontrada' })
     }
   }
 
@@ -39,14 +39,19 @@ class AssinaturaController implements IController {
 
       const txEmail = `
         <b>${nome}, sua assinatura dos direitos de imagem para o SENAC foi realizada com sucesso. </b><br>
-    <br/>
-    
-    `
+        <br/>
+      `
 
-      // emailUtils.enviar('adolfoooliveira@gmail.com', 'txEmailCandidato')
-      emailUtils.enviar(email, txEmail)
-
-      res.status(200).json({ message: 'Assinatura realizada com sucesso' })
+      // Tenta enviar o email e captura erros, se houver
+      try {
+        await emailUtils.enviar(email, txEmail)
+        res.status(200).json({ message: 'Assinatura realizada com sucesso' })
+      } catch (emailError) {
+        console.error('Erro ao enviar e-mail:', emailError)
+        res.status(200).json({
+          message: 'Assinatura realizada com sucesso, mas ocorreu um erro ao enviar o e-mail de confirmação.'
+        })
+      }
     } catch (error: any) {
       console.error('Erro ao assinar:', error)
 
@@ -64,16 +69,12 @@ class AssinaturaController implements IController {
   async find (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
       const { id } = req.params
-      // console.log("qqqqq" + id);
 
       const registro = await Assinatura.findAll({
         where: {
           fkEvento: id
         }
-        // include: [Perfil],
-
       })
-      // console.log( registro );
 
       res.status(200).json({ data: registro })
     } catch (err) {
