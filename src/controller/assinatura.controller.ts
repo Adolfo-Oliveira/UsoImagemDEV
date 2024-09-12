@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { IController } from './controller.inteface'
 import Assinatura from '../model/assinatura.model'
 import moment from 'moment-timezone'
-import emailUtils from '../utils/email.utils'
+import EmailEnviar from '../model/emailEnviar.model'
 const { v4: uuidv4 } = require('uuid')
 
 class AssinaturaController implements IController {
@@ -37,21 +37,15 @@ class AssinaturaController implements IController {
         updatedAt: localTime
       })
 
-      const txEmail = `
-        <b>${nome}, sua assinatura dos direitos de imagem para o SENAC foi realizada com sucesso. </b><br>
-        <br/>
-      `
-
-      // Tenta enviar o email e captura erros, se houver
-      try {
-        await emailUtils.enviar(email, txEmail)
-        res.status(200).json({ message: 'Assinatura realizada com sucesso' })
-      } catch (emailError) {
-        console.error('Erro ao enviar e-mail:', emailError)
-        res.status(200).json({
-          message: 'Assinatura realizada com sucesso, mas ocorreu um erro ao enviar o e-mail de confirmação.'
-        })
-      }
+      await EmailEnviar.create({
+        id: uuidv4(),
+        de: 'semresposta@pe.senac.br',
+        para: email,
+        titulo: 'Confirmação da assinatura',
+        conteudo: `${nome}, o termo de uso de imagem SENAC-PE foi assinado com sucesso.`,
+        enviado: false,
+        dataHoraEnvio: null // ou forneça um valor válido
+      })
     } catch (error: any) {
       console.error('Erro ao assinar:', error)
 
