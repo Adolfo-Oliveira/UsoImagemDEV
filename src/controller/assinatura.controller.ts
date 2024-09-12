@@ -19,12 +19,12 @@ class AssinaturaController implements IController {
 
   async create (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { cpf, nome, dataNasc, email, fkEvento, ip } = req.body
-      const localTime = moment.tz(new Date(), 'America/Recife').format()
-      const dataNascLocal = moment.tz(dataNasc, 'America/Recife').format('YYYY-MM-DD HH:mm:ss')
-
-      console.log(req.body)
-
+      const { cpf, nome, dataNasc, email, fkEvento, ip } = req.body;
+      const localTime = moment.tz(new Date(), 'America/Recife').format();
+      const dataNascLocal = moment.tz(dataNasc, 'America/Recife').format('YYYY-MM-DD HH:mm:ss');
+  
+      console.log(req.body);
+  
       await Assinatura.create({
         id: uuidv4(),
         cpf,
@@ -35,8 +35,8 @@ class AssinaturaController implements IController {
         ip,
         createdAt: localTime,
         updatedAt: localTime
-      })
-
+      });
+  
       await EmailEnviar.create({
         id: uuidv4(),
         de: 'semresposta@pe.senac.br',
@@ -44,21 +44,24 @@ class AssinaturaController implements IController {
         titulo: 'Confirmação da assinatura',
         conteudo: `${nome}, o termo de uso de imagem SENAC-PE foi assinado com sucesso.`,
         enviado: false,
-        dataHoraEnvio: null // ou forneça um valor válido
-      })
+        dataHoraEnvio: null
+      });
+  
+      // Responda com sucesso
+      res.status(200).json({ message: 'Assinatura realizada com sucesso!' });
+  
     } catch (error: any) {
-      console.error('Erro ao assinar:', error)
-
+      console.error('Erro ao assinar:', error);
+  
       if (error.name === 'SequelizeUniqueConstraintError') {
-        // Trata erros de duplicação de chave
-        res.status(409).json({ message: 'O CPF já está cadastrado.' })
+        res.status(409).json({ message: 'O CPF já está cadastrado.' });
       } else {
-        // Trata outros tipos de erros
-        const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido'
-        res.status(500).json({ message: `Erro ao assinar: ${errorMessage}` })
+        const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+        res.status(500).json({ message: `Erro ao assinar: ${errorMessage}` });
       }
     }
   }
+  
 
   async find (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
