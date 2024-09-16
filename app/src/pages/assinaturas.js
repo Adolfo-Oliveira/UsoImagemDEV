@@ -42,13 +42,18 @@ import {
     const [filtroNome, setFiltroNome] = useState("");
 
   // Função para ajustar a data ao fuso horário local
-const adjustDate = (dateString) => {
-  const date = new Date(dateString);
+  const adjustDate = (dateString) => {
+    const date = new Date(dateString);
 
-  // Corrigir a data
-  date.setDate(date.getDate() );
-  return date.toLocaleDateString('pt-BR');
-};
+    date.setDate(date.getDate() + 2);
+    
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+  
+    return `${day}/${month}/${year}`;
+  };
+  
 
 // const formatPhone = (ddd, phone) => {
 //     return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
