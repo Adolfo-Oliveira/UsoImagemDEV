@@ -50,6 +50,18 @@ const adjustDate = (dateString) => {
   return date.toLocaleDateString('pt-BR');
 };
 
+const adjustDateNasc = (dateString) => {
+  const date = new Date(dateString);
+
+  date.setDate(date.getDate() + 2);
+  
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
+
 // const formatPhone = (ddd, phone) => {
 //     return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
 //   };
@@ -239,7 +251,7 @@ const adjustDate = (dateString) => {
                   <p></p>
                   {assinatura.dataNasc && (
                     <Typography color="text.secondary">
-                      <b>Data de Nascimento:</b> {adjustDate(assinatura.dataNasc)}
+                      <b>Data de Nascimento:</b> {adjustDateNasc(assinatura.dataNasc)}
                     </Typography>
                   )}
                   {assinatura.cpf && (
