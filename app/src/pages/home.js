@@ -156,6 +156,9 @@ const Home = (props) => {
     setCategoria("");
     setEixo("");
   }
+  const eventosFiltrados = registros.filter((evento) =>
+    evento.titulo.toLowerCase().includes(filtroTitulo.toLowerCase())
+  );
 
   return (
     <div>
@@ -169,6 +172,9 @@ const Home = (props) => {
           style={{ marginBottom: "1rem", marginTop: "1rem", backgroundColor: "white", width: "50%" }}
         />
       </div>
+      <Typography variant="body1" style={{textAlign: 'center', alignItems: 'center'}}>
+        {`Total de eventos: ${eventosFiltrados.length}`}
+      </Typography>
 
       <div>
         {registros
@@ -224,7 +230,6 @@ const Home = (props) => {
               autoFocus
               margin="dense"
               id="Titulo do Evento"
-              // label="Titulo do chamado"
               type="text"
               name="tituloEvento"
               fullWidth
@@ -243,7 +248,6 @@ const Home = (props) => {
               autoFocus
               margin="dense"
               id="Data do Evento"
-              // label="Data do evento"
               type="date"
               name="dataEvento"
               fullWidth
@@ -262,7 +266,6 @@ const Home = (props) => {
               autoFocus
               margin="dense"
               id="Hora do Evento"
-              // label="Hora do evento"
               type="time"
               name="horaEvento"
               fullWidth
@@ -281,7 +284,6 @@ const Home = (props) => {
               autoFocus
               margin="dense"
               id="descricao"
-              // label="Descrição do evento"
               type="text"
               name="descricao"
               fullWidth

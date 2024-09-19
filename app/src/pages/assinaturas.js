@@ -234,6 +234,13 @@ const adjustDateNasc = (dateString) => {
 
         {assinaturas.length > 0 ?
         <div>
+        {/* Filtro e contagem de assinaturas */}
+        <Typography variant="body1" style={{textAlign: 'center', alignItems: 'center'}}>
+          {`Total de assinaturas: ${assinaturas.filter((assinatura) =>
+            assinatura.nome.toLowerCase().includes(filtroNome.toLowerCase())
+          ).length}`}
+        </Typography>
+      
         {assinaturas
           .filter((assinatura) =>
             assinatura.nome.toLowerCase().includes(filtroNome.toLowerCase())
@@ -262,26 +269,15 @@ const adjustDateNasc = (dateString) => {
                   <Typography color="text.secondary">
                     <b>Email:</b> {assinatura.email}
                   </Typography>
-
-                  {/* <Typography color="text.secondary">
-                    <b>Telefone:</b> {formatPhone(assinatura.ddd, assinatura.telefone)}
-                  </Typography> */}
-                  
                   <Typography color="text.secondary">
                     <b>Data da Assinatura:</b> {adjustDate(assinatura.createdAt)}
                   </Typography>
-
-                  {/* <Typography color="text.secondary">
-                    <b>CEP:</b> {formatCEP(assinatura.cep)}
-                  </Typography> */}
                 </CardContent>
               </Card>
-              
             </div>
-        ))}
-        
-
-      </div> : '' }
+          ))}
+      </div>
+      : '' }
 
       <div style={{textAlign: 'center', alignItems: 'center'}}>
           <Button
