@@ -53,7 +53,7 @@ class AssinaturaController implements IController {
       console.error('Erro ao assinar:', error)
 
       if (error.name === 'SequelizeUniqueConstraintError') {
-        res.status(409).json({ message: 'O CPF já está cadastrado.' })
+        res.status(409).json({ message: 'O usuario já assinou o termo.' })
       } else {
         const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido'
         res.status(500).json({ message: `Erro ao assinar: ${errorMessage}` })
