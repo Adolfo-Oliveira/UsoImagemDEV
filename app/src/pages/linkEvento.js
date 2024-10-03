@@ -43,6 +43,8 @@ const LinkEvento = (props) => {
     nome: '',
     dataNascimento: '',
     email: '',
+    ddd: '',
+    telefone: '',
     fkEvento: eventoId,
   });
   const [isCpfChecked, setIsCpfChecked] = useState(false);
@@ -165,7 +167,7 @@ const LinkEvento = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.cpf || !formData.nome || !formData.email) {
+    if (!formData.cpf || !formData.nome || !formData.email || !formData.ddd || !formData.telefone)  {
       alert('Todos os campos obrigatórios devem ser preenchidos.');
       return;
     }
@@ -216,6 +218,8 @@ const LinkEvento = (props) => {
       nome: formData.nome,
       dataNasc: formData.dataNascimento,
       email: formData.email,
+      ddd: formData.ddd,
+      telefone: formData.telefone,
       fkEvento: eventoId,
       ip: ipAddress,
     })
@@ -296,7 +300,9 @@ const LinkEvento = (props) => {
               cpf: data.CPF,
               nome: data.Nome,
               dataNascimento: data.DataNascimento.substring(0, 10),
-              email: data.Email
+              email: data.Email,
+              ddd: data.DDD,
+              telefone: data.Telefone
             });
             setIsCpfValid(true);
           }
@@ -354,8 +360,8 @@ const LinkEvento = (props) => {
     return `${day}/${month}/${year}`;
   };
 
-  // const formatPhone = (ddd, phone) => {
-  //   return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
+  // const formatTelefone = (ddd, telefone) => {
+  //   return `(${ddd}) ${telefone.slice(0, 5)}-${telefone.slice(5)}`;
   // };
 
   // const formatCep = (cep) => {
@@ -363,12 +369,12 @@ const LinkEvento = (props) => {
   //     .replace(/^(\d{5})(\d{3})$/, '$1-$2');
   // };
 
-  const handleDataNascimentoBlur = () => {
-    const year = new Date(formData.dataNascimento).getFullYear();
-    if (year > 1900) {
-      setIsDataNascimentoDisabled(true);
-    }
-  };
+  // const handleDataNascimentoBlur = () => {
+  //   const year = new Date(formData.dataNascimento).getFullYear();
+  //   if (year > 1900) {
+  //     setIsDataNascimentoDisabled(true);
+  //   }
+  // };
 
   return (
     <>
@@ -405,7 +411,7 @@ const LinkEvento = (props) => {
         TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES
       </DialogTitle>
       <DialogContentText id="terms-dialog-description" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
-            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{formatDate(formData.dataNascimento)}</strong>, CPF: <strong>{formatCpf(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong> autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{formatDate(formData.dataNascimento)}</strong>, CPF: <strong>{formatCpf(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong> autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
             A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
             A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
       </DialogContentText>
@@ -507,6 +513,29 @@ const LinkEvento = (props) => {
         variant="outlined"
         required
       />
+      <box><InputMask mask="99" value={formData.ddd} onChange={handleChange}>
+          {() => (
+            <TextField
+              label="DDD"
+              name="ddd"
+              variant="outlined"
+              required
+              sx={{ width: '20%' }}
+            />
+          )}
+        </InputMask>
+        <InputMask mask="999999999" value={formData.telefone} onChange={handleChange}>
+          {() => (
+            <TextField
+              label="Telefone"
+              name="telefone"
+              variant="outlined"
+              required
+              sx={{ width: '80%' }}
+            />
+          )}
+        </InputMask>
+      </box>
       {/* <Box sx={{ display: 'flex', gap: 2 }}>
         <InputMask mask="99" value={formData.ddd} onChange={handleChange}>
           {() => (
@@ -655,7 +684,7 @@ const LinkEvento = (props) => {
         <DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal', textAlign: 'justify' }}>TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES</DialogTitle>
         <DialogContent>
           <DialogContentText id="terms-dialog-description" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
-            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{formatDate(formData.dataNascimento)}</strong>, CPF: <strong>{formatCpf(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong> autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{formatDate(formData.dataNascimento)}</strong>, CPF: <strong>{formatCpf(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong> autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
             A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
             A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
           </DialogContentText>
@@ -680,6 +709,9 @@ const LinkEvento = (props) => {
             <strong>Nome:</strong> {formData.nome ? formData.nome : ''} <br />
             <strong>Data de Nascimento:</strong> {formData.dataNascimento ? formatDate(formData.dataNascimento) : ''} <br />
             <strong>Email:</strong> {formData.email ? formData.email : ''} <br />
+            <strong>DDD:</strong> {formData.ddd ? formData.ddd : ''} <br />
+            <strong>Telefone:</strong> {formData.telefone ? formData.telefone : ''} <br />
+
             Deseja confirmar a assinatura?
           </DialogContentText>
         </DialogContent>

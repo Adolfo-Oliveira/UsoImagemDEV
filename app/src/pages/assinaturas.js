@@ -62,8 +62,8 @@ const adjustDateNasc = (dateString) => {
   return `${day}/${month}/${year}`;
 };
 
-// const formatPhone = (ddd, phone) => {
-//     return `(${ddd}) ${phone.slice(0, 5)}-${phone.slice(5)}`;
+// const formatTelefone = (ddd, telefone) => {
+//     return `(${ddd}) ${telefone.slice(0, 5)}-${telefone.slice(5)}`;
 //   };
 
   const formatCPF = (cpf) => {
@@ -203,6 +203,20 @@ const adjustDateNasc = (dateString) => {
     //     console.error("Erro ao salvar evento:", err);
     //   });
     // }
+    const formatTelefone = (ddd, telefone) => {
+      // Remove caracteres não numéricos (se houver)
+      telefone = telefone.replace(/\D/g, '');
+      ddd = ddd ? ddd.replace(/\D/g, '') : '';
+    
+      // Verifica se o DDD e o telefone têm o formato esperado
+      if (ddd.length === 2 && (telefone.length === 10 || telefone.length === 11)) {
+        return `(${ddd}) ${telefone.slice(0, 5)}-${telefone.slice(5)}`;
+      }
+    
+      // Se o telefone ou DDD estiverem em um formato inválido, retorna o telefone sem formatação
+      return `${ddd} ${telefone}`;
+    };
+    
   
     return (
       <div>
@@ -268,6 +282,9 @@ const adjustDateNasc = (dateString) => {
                   )}
                   <Typography color="text.secondary">
                     <b>Email:</b> {assinatura.email}
+                  </Typography>
+                  <Typography color="text.secondary">
+                    <b>Telefone:</b> {formatTelefone(assinatura.ddd, assinatura.telefone)}
                   </Typography>
                   <Typography color="text.secondary">
                     <b>Data da Assinatura:</b> {adjustDate(assinatura.createdAt)}

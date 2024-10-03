@@ -37,6 +37,16 @@ module.exports = {
         }
       },
 
+      ddd: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
+      telefone: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+
       fkEvento: {
         type: Sequelize.UUID,
         allowNull: false

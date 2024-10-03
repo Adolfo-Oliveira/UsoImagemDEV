@@ -41,6 +41,16 @@ Assinatura.init(
       // }
     },
 
+    ddd: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+
+    telefone: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+
     fkEvento: {
       type: DataTypes.UUID,
       allowNull: false
