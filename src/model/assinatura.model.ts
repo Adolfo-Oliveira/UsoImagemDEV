@@ -33,12 +33,6 @@ Assinatura.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
-      // validate: {
-      //   is: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
-      //   notNull: {
-      //     msg: 'O campo CPF não pode ser nulo'
-      //   }
-      // }
     },
 
     ddd: {
@@ -49,6 +43,37 @@ Assinatura.init(
     telefone: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+
+    nomeResp: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+
+    emailResp: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+
+    dataNascResp: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+
+    cpfResp: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true
+    },
+
+    dddResp: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+
+    telefoneResp: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
 
     fkEvento: {

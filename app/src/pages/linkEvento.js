@@ -20,7 +20,6 @@ const getCookie = require("../utils/getCookie");
 
 const LinkEvento = (props) => {
 
-  // alert(JSON.stringify(props.match.params))
   const { eventoId } = props.match.params
   const [ipAddress, setIpAddress] = useState('');
 
@@ -36,8 +35,6 @@ const LinkEvento = (props) => {
 
     fetchIpAddress();
   }, []);
-  // alert(eventoId)
-  // const { eventoId } = useParams();
   const [formData, setFormData] = useState({
     cpf: '',
     nome: '',
@@ -45,6 +42,12 @@ const LinkEvento = (props) => {
     email: '',
     ddd: '',
     telefone: '',
+    nomeResp: '',
+    cpfResp: '',
+    dataNascimentoResp: '',
+    dddResp: '',
+    telefoneResp: '',
+    emailResp: '',
     fkEvento: eventoId,
   });
   const [isCpfChecked, setIsCpfChecked] = useState(false);
@@ -52,54 +55,30 @@ const LinkEvento = (props) => {
   const [openTerms, setOpenTerms] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [openLoadingDialog, setOpenLoadingDialog] = useState(false);
-  const [cepDataLoaded, setCepDataLoaded] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [cep, setCep] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [nome, setNome] = useState("");
-  const [dataNasc, setDataNasc] = useState("");
-  const [email, setEmail] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [logradouro, setLogradouro] = useState("");
-  const [numero, setNumero] = useState("");
-  const [bairro, setBairro] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState("");
-  const [open, setOpen] = useState("");
   const [message, setMessage] = useState("");
-  const [openMessageDialog, setOpenMessageDialog] = useState("");
-  const [assinaturas, setAssinaturas] = useState([]);
-  const [fkEvento, setFkEvento] = useState([]);
-  const [isDataNascimentoDisabled, setIsDataNascimentoDisabled] = useState(false);
   const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
-  const [openErrorDialog, setOpenErrorDialog] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
-    // console.log('Evento ID:', eventoId);
   }, [eventoId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    // if (name === 'cep' && value.length === 8) {
-    //   fetchAddress(value);
-    // }
   };
 
   const validarCPF = (cpf) => {
-    cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+    cpf = cpf.replace(/[^\d]+/g, '');
   
     if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
-      return false; // Verifica se o CPF tem 11 dígitos e não é uma sequência repetida
+      return false;
     }
   
     let soma = 0;
     let resto;
   
-    // Verifica o primeiro dígito verificador
     for (let i = 1; i <= 9; i++) {
       soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
     }
@@ -115,7 +94,6 @@ const LinkEvento = (props) => {
   
     soma = 0;
   
-    // Verifica o segundo dígito verificador
     for (let i = 1; i <= 10; i++) {
       soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
     }
@@ -133,9 +111,8 @@ const LinkEvento = (props) => {
   };
   
   const handleCpfCheck = async () => {
-    const cpf = formData.cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const cpf = formData.cpf.replace(/\D/g, '');
   
-    // Verifique se o CPF é válido
     if (!validarCPF(cpf)) {
       alert('CPF inválido. Por favor, verifique e tente novamente.');
       return;
@@ -144,25 +121,6 @@ const LinkEvento = (props) => {
     await checkCpf(formData.cpf);
     setIsCpfChecked(true);
   };
-  
-
-  // const handleNewCpf = () => {
-  //   setIsCpfChecked(false);
-  //   setFormData({
-  //     cpf: '',
-  //     nome: '',
-  //     dataNascimento: '',
-  //     email: '',
-  //     ddd: '', 
-  //     telefone: '',
-  //     cep: '',
-  //     logradouro: '',
-  //     numero: '',
-  //     bairro: '',
-  //     cidade: '',
-  //     estado: ''
-  //   });
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -175,34 +133,8 @@ const LinkEvento = (props) => {
       alert('Você deve aceitar os termos e condições antes de enviar.');
       return;
     }
-    // console.log('Form Data Submitted:', formData);
     setOpenConfirmDialog(true);
   };
-
-  // const carregarAssinaturas = async () => {
-  //   setOpenLoadingDialog(true);
-  //   const token = getCookie('_token_uso_imagem');
-  //   const params = {
-  //     headers: {
-  //       'Authorization': `Bearer ${token}`
-  //     }
-  //   };
-  //   try {
-  //     fetch(`${process.env.REACT_APP_DOMAIN_API}/api/assinatura/`, params)
-  //     .then(response => {
-  //       return response.json()
-  //     })
-  //     .then(response => {
-  //       setOpenLoadingDialog(false);
-  //       if(response.data){
-  //         setAssinaturas(response.data);
-  //       }
-  //     })
-  //   } catch (err) {
-  //     setOpenLoadingDialog(false);
-  //     console.error("Erro ao carregar assinaturas:", err);
-  //   }
-  // };
 
   const handleConfirmSubmit = () => {
   const token = getCookie('_token_uso_imagem');
@@ -221,6 +153,12 @@ const LinkEvento = (props) => {
       ddd: formData.ddd,
       telefone: formData.telefone,
       fkEvento: eventoId,
+      nomeResp: formData.nomeResp,
+      cpfResp: formData.cpfResp,
+      dataNascResp: formData.dataNascimentoResp,
+      dddResp: formData.dddResp,
+      telefoneResp: formData.telefoneResp,
+      emailResp: formData.emailResp,
       ip: ipAddress,
     })
   }
@@ -237,23 +175,22 @@ const LinkEvento = (props) => {
         return response.json();
       })
       .then(response => {
-        setIsSuccess(true); // Marca a operação como bem-sucedida
+        setIsSuccess(true);
         setMessage('Assinatura realizada com sucesso!');
-        setOpenDialog(true); // Abre o diálogo
+        setOpenDialog(true);
       })
       .catch(err => {
         console.error("Erro ao salvar assinatura:", err);
         
-        setIsSuccess(false); // Marca a operação como falha
+        setIsSuccess(false);
         
-        // Verifica se é um erro de chave única
         if (err.message.includes('Violation of UNIQUE KEY constraint')) {
           setMessage('Erro: CPF já está cadastrado. Por favor, verifique os dados inseridos.');
         } else {
           setMessage(err.message || 'Erro desconhecido');
         }
 
-        setOpenDialog(true); // Abre o diálogo
+        setOpenDialog(true);
       });
   }
 
@@ -312,30 +249,6 @@ const LinkEvento = (props) => {
     }
   }
 
-  // async function fetchAddress(cep) {
-  //   try {
-  //     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-  //     const data = await response.json();
-  //     if (!data.erro) {
-  //       setFormData(prevFormData => ({
-  //         ...prevFormData,
-  //         logradouro: data.logradouro,
-  //         bairro: data.bairro,
-  //         cidade: data.localidade,
-  //         estado: data.uf
-  //       }));
-  //       setCepDataLoaded(true);
-  //     } else {
-  //       alert('CEP não encontrado.');
-  //       setCepDataLoaded(false);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching address:', error);
-  //     alert('Erro ao buscar endereço.');
-  //     setCepDataLoaded(false);
-  //   }
-  // }
-
   const handleOpenTerms = () => {
     setOpenTerms(true);
   };
@@ -360,21 +273,12 @@ const LinkEvento = (props) => {
     return `${day}/${month}/${year}`;
   };
 
-  // const formatTelefone = (ddd, telefone) => {
-  //   return `(${ddd}) ${telefone.slice(0, 5)}-${telefone.slice(5)}`;
-  // };
-
-  // const formatCep = (cep) => {
-  //   return cep.replace(/\D/g, '')
-  //     .replace(/^(\d{5})(\d{3})$/, '$1-$2');
-  // };
-
-  // const handleDataNascimentoBlur = () => {
-  //   const year = new Date(formData.dataNascimento).getFullYear();
-  //   if (year > 1900) {
-  //     setIsDataNascimentoDisabled(true);
-  //   }
-  // };
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value 
+    });
+  };
 
   return (
     <>
@@ -410,12 +314,16 @@ const LinkEvento = (props) => {
       <DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal', textAlign: 'justify' }}>
         TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES
       </DialogTitle>
-      <DialogContentText id="terms-dialog-description" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
-            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{formatDate(formData.dataNascimento)}</strong>, CPF: <strong>{formatCpf(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong> autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+      
+      
+      {isAdult ? (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+    <DialogContentText id="terms-dialog-description-adult" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
+            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimento)}</strong>, CPF: <strong>{(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong>, autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
             A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
             A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
       </DialogContentText>
-      <FormControlLabel
+    <FormControlLabel
         control={
           <Checkbox
             checked={termsAccepted}
@@ -427,8 +335,6 @@ const LinkEvento = (props) => {
         style={{ justifyContent: 'center', color: "#004A8D" }}
         label="Eu li e aceito os termos e condições"
       />
-      {isAdult ? (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
     <Button 
       type="submit" 
       variant="contained" 
@@ -448,14 +354,98 @@ const LinkEvento = (props) => {
   </div>
 ) : (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+    <DialogContentText id="terms-dialog-description" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
+            Eu, <strong>{formData.nomeResp}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimentoResp)}</strong>, CPF: <strong>{(formData.cpfResp)}</strong>, e-mail: <strong>{formData.emailResp}</strong>, telefone: <strong>({formData.dddResp}){formData.telefoneResp}</strong>, responsável de <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimento)}</strong>, CPF: <strong>{(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong>, autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+            A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
+            A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
+      </DialogContentText>
+    <h3>Dados do Responsável</h3>
+    
+    <TextField
+      label="Nome do Responsável"
+      name="nomeResp"
+      variant="outlined"
+      value={formData.nomeResp}
+      onChange={handleInputChange}
+      fullWidth
+      required
+    />
+    
+    <TextField
+      label="CPF do Responsável"
+      name= "cpfResp"
+      variant="outlined"
+      value={formData.cpfResp}
+      onChange={handleInputChange}
+      fullWidth
+      required
+    />
+    
+    <TextField
+      label="Data de Nascimento do Responsável"
+      name= "dataNascimentoResp"
+      variant="outlined"
+      value={formData.dataNascimentoResp}
+      onChange={handleInputChange}
+      fullWidth
+      type="date"
+      InputLabelProps={{ shrink: true }}
+      required
+    />
+    
+    <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+      <TextField
+        label="DDD"
+        name= "dddResp"
+        variant="outlined"
+        value={formData.dddResp}
+        onChange={handleInputChange}
+        required
+        style={{ flex: '1' }}
+      />
+      <TextField
+        label="Telefone do Responsável"
+        name= "telefoneResp"
+        variant="outlined"
+        value={formData.telefoneResp}
+        onChange={handleInputChange}
+        required
+        style={{ flex: '4' }}
+      />
+    </div>
+    
+    <TextField
+      label="Email do Responsável"
+      name= "emailResp"
+      variant="outlined"
+      value={formData.emailResp}
+      onChange={handleInputChange}
+      fullWidth
+      required
+    />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={termsAccepted}
+            onChange={handleTermsChange}
+            name="termsAccepted"
+            color="primary"
+          />
+        }
+        style={{ justifyContent: 'center', color: "#004A8D" }}
+        label="Eu li e aceito os termos e condições"
+      />
+    
     <Button 
       type="submit" 
       variant="contained" 
       color="primary" 
       style={{ backgroundColor: "#004A8D", width: '100%' }}
     >
-      Compartilhar
+      Enviar
     </Button>
+    
     <Button 
       variant="contained" 
       color="primary" 
@@ -470,7 +460,7 @@ const LinkEvento = (props) => {
     </>
   ) : (
     <>
-      <h2><b>Preencha os dados</b></h2>
+      <h2><b>Preencha os seus dados</b></h2>
       <InputMask mask="999.999.999-99" value={formData.cpf} disabled>
         {() => (
           <TextField
@@ -536,88 +526,21 @@ const LinkEvento = (props) => {
           )}
         </InputMask>
       </box>
-      {/* <Box sx={{ display: 'flex', gap: 2 }}>
-        <InputMask mask="99" value={formData.ddd} onChange={handleChange}>
-          {() => (
-            <TextField
-              label="DDD"
-              name="ddd"
-              variant="outlined"
-              required
-              sx={{ width: '20%' }}
-            />
-          )}
-        </InputMask>
-        <InputMask mask="999999999" value={formData.telefone} onChange={handleChange}>
-          {() => (
-            <TextField
-              label="Telefone"
-              name="telefone"
-              variant="outlined"
-              required
-              sx={{ width: '80%' }}
-            />
-          )}
-        </InputMask>
-      </Box>
-      <TextField
-        value={formData.cep}
-        onChange={handleChange}
-        label="CEP"
-        name="cep"
-        variant="outlined"
-        required
-      /> */}
-      {/* {cepDataLoaded && (
-        <>
-          <TextField
-            label="Logradouro"
-            name="logradouro"
-            value={formData.logradouro}
-            onChange={handleChange}
-            variant="outlined"
-            required
-            disabled
-          />
-          <TextField
-            label="Número"
-            name="numero"
-            value={formData.numero}
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <TextField
-            label="Bairro"
-            name="bairro"
-            value={formData.bairro}
-            onChange={handleChange}
-            variant="outlined"
-            required
-            disabled
-          />
-          <TextField
-            label="Cidade"
-            name="cidade"
-            value={formData.cidade}
-            onChange={handleChange}
-            variant="outlined"
-            required
-            disabled
-          />
-          <TextField
-            label="Estado"
-            name="estado"
-            value={formData.estado}
-            onChange={handleChange}
-            variant="outlined"
-            required
-            disabled
-          />
-        </>
-      )} */}
-      <Button onClick={handleOpenTerms} style={{ color: "#004A8D" }}>
-        Termos e Condições
-      </Button>
+      
+      {isAdult ? (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+
+      <DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal', textAlign: 'justify' }}>
+        TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES
+      </DialogTitle>
+
+      <DialogContentText id="terms-dialog-description-adult" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
+            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimento)}</strong>, CPF: <strong>{(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong>, autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+            A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
+            A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
+      </DialogContentText>
+
+
       <FormControlLabel
         control={
           <Checkbox
@@ -630,8 +553,6 @@ const LinkEvento = (props) => {
         style={{ justifyContent: 'center', color: "#004A8D" }}
         label="Eu li e aceito os termos e condições"
       />
-      {isAdult ? (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
     <Button 
       type="submit" 
       variant="contained" 
@@ -651,14 +572,96 @@ const LinkEvento = (props) => {
   </div>
 ) : (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+    <h3>Dados do Responsável</h3>
+    
+    <TextField
+      label="Nome do Responsável"
+      name="nomeResp"
+      variant="outlined"
+      value={formData.nomeResp}
+      onChange={handleInputChange}
+      fullWidth
+      required
+    />
+    
+    <TextField
+      label="CPF do Responsável"
+      name= "cpfResp"
+      variant="outlined"
+      value={formData.cpfResp}
+      onChange={handleInputChange}
+      fullWidth
+      required
+    />
+    
+    <TextField
+      label="Data de Nascimento do Responsável"
+      name= "dataNascimentoResp"
+      variant="outlined"
+      value={formData.dataNascimentoResp}
+      onChange={handleInputChange}
+      fullWidth
+      type="date"
+      InputLabelProps={{ shrink: true }}
+      required
+    />
+    
+    <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+      <TextField
+        label="DDD"
+        name= "dddResp"
+        variant="outlined"
+        value={formData.dddResp}
+        onChange={handleInputChange}
+        required
+        style={{ flex: '1' }}
+      />
+      <TextField
+        label="Telefone do Responsável"
+        name= "telefoneResp"
+        variant="outlined"
+        value={formData.telefoneResp}
+        onChange={handleInputChange}
+        required
+        style={{ flex: '4' }}
+      />
+    </div>
+    
+    <TextField
+      label="Email do Responsável"
+      name= "emailResp"
+      variant="outlined"
+      value={formData.emailResp}
+      onChange={handleInputChange}
+      fullWidth
+      required
+    />
+
+<Button onClick={handleOpenTerms} style={{ color: "#004A8D" }}>
+        Termos e Condições
+      </Button>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={termsAccepted}
+            onChange={handleTermsChange}
+            name="termsAccepted"
+            color="primary"
+          />
+        }
+        style={{ justifyContent: 'center', color: "#004A8D" }}
+        label="Eu li e aceito os termos e condições"
+      />
+    
     <Button 
       type="submit" 
       variant="contained" 
       color="primary" 
       style={{ backgroundColor: "#004A8D", width: '100%' }}
     >
-      Compartilhar
+      Enviar
     </Button>
+    
     <Button 
       variant="contained" 
       color="primary" 
@@ -683,11 +686,11 @@ const LinkEvento = (props) => {
       >
         <DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal', textAlign: 'justify' }}>TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES</DialogTitle>
         <DialogContent>
-          <DialogContentText id="terms-dialog-description" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
-            Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{formatDate(formData.dataNascimento)}</strong>, CPF: <strong>{formatCpf(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong> autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+        <DialogContentText id="terms-dialog-description" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
+            Eu, <strong>{formData.nomeResp}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimentoResp)}</strong>, CPF: <strong>{(formData.cpfResp)}</strong>, e-mail: <strong>{formData.emailResp}</strong>, telefone: <strong>({formData.dddResp}){formData.telefoneResp}</strong>, responsável de <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimento)}</strong>, CPF: <strong>{(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong>, autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
             A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
             A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
-          </DialogContentText>
+      </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseTerms} color="primary">
@@ -703,18 +706,31 @@ const LinkEvento = (props) => {
       >
         <DialogTitle id="confirm-dialog-title">Confirmação dos dados para assinatura dos termos</DialogTitle>
         <DialogContent>
-          <DialogContentText id="confirm-dialog-description">
-            <b>Você está prestes a assinar com os seguintes dados:</b><br /><br />
-            <strong>CPF:</strong> {formData.cpf ? formatCpf(formData.cpf) : ''} <br />
-            <strong>Nome:</strong> {formData.nome ? formData.nome : ''} <br />
-            <strong>Data de Nascimento:</strong> {formData.dataNascimento ? formatDate(formData.dataNascimento) : ''} <br />
-            <strong>Email:</strong> {formData.email ? formData.email : ''} <br />
-            <strong>DDD:</strong> {formData.ddd ? formData.ddd : ''} <br />
-            <strong>Telefone:</strong> {formData.telefone ? formData.telefone : ''} <br />
+  <DialogContentText id="confirm-dialog-description">
+    <b>Você está prestes a assinar com os seguintes dados:</b><br /><br />
+    <strong>CPF:</strong> {formData.cpf ? formatCpf(formData.cpf) : ''} <br />
+    <strong>Nome:</strong> {formData.nome ? formData.nome : ''} <br />
+    <strong>Data de Nascimento:</strong> {formData.dataNascimento ? formatDate(formData.dataNascimento) : ''} <br />
+    <strong>Email:</strong> {formData.email ? formData.email : ''} <br />
+    <strong>DDD:</strong> {formData.ddd ? formData.ddd : ''} <br />
+    <strong>Telefone:</strong> {formData.telefone ? formData.telefone : ''} <br /><br />
 
-            Deseja confirmar a assinatura?
-          </DialogContentText>
-        </DialogContent>
+    {/* Condicional para mostrar mais dados se CPF resp estiver presente */}
+    {formData.cpfResp && (
+      
+      <>
+        <b>Dados do Responsável</b> <br />
+        <strong>CPF Responsável:</strong> {formatCpf(formData.cpfResp)} <br />
+        <strong>Nome do Responsável:</strong> {formData.nomeResp} <br />
+        <strong>Email do Responsável:</strong> {formData.emailResp} <br />
+        <strong>Telefone do Responsável:</strong> {formData.telefoneResp} <br />
+      </>
+    )}
+
+    Deseja confirmar a assinatura?
+  </DialogContentText>
+</DialogContent>
+
 
         <DialogActions>
             <Button onClick={handleCancelSubmit} color="primary">
