@@ -47,6 +47,36 @@ module.exports = {
         allowNull: false
       },
 
+      nomeResp: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+
+      emailResp: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+
+      dataNascResp: {
+        type: Sequelize.DATEONLY,
+        allowNull: true
+      },
+
+      cpfResp: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+
+      dddResp: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+
+      telefoneResp: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+
       fkEvento: {
         type: Sequelize.UUID,
         allowNull: false

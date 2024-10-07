@@ -19,9 +19,10 @@ class AssinaturaController implements IController {
 
   async create (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { cpf, nome, dataNasc, email, ddd, telefone, fkEvento, ip } = req.body
+      const { cpf, nome, dataNasc, email, ddd, telefone, cpfResp, nomeResp, dataNascResp, emailResp, dddResp, telefoneResp, fkEvento, ip } = req.body
       const localTime = moment.tz(new Date(), 'America/Recife').format()
       const dataNascLocal = moment.tz(dataNasc, 'America/Recife').format('YYYY-MM-DD HH:mm:ss')
+      const dataNascLocalResp = moment.tz(dataNascResp, 'America/Recife').format('YYYY-MM-DD HH:mm:ss')
 
       console.log(req.body)
 
@@ -33,6 +34,12 @@ class AssinaturaController implements IController {
         email,
         ddd,
         telefone,
+        cpfResp,
+        nomeResp,
+        dataNascResp: dataNascLocalResp,
+        emailResp,
+        dddResp,
+        telefoneResp,
         fkEvento,
         ip,
         createdAt: localTime,
@@ -43,6 +50,7 @@ class AssinaturaController implements IController {
         id: uuidv4(),
         de: 'semresposta@pe.senac.br',
         para: email,
+        cc: emailResp,
         titulo: 'Confirmação da assinatura',
         conteudo: `${nome}, o termo de uso de imagem SENAC-PE foi assinado com sucesso.`,
         enviado: false,
