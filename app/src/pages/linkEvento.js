@@ -313,6 +313,11 @@ const LinkEvento = (props) => {
       );
     } else {
       return (
+        formData.nome &&
+        formData.dataNascimento &&
+        formData.email &&
+        formData.ddd &&
+        formData.telefone &&
         formData.nomeResp &&
         formData.cpfResp &&
         formData.dataNascimentoResp &&
