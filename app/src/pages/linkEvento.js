@@ -135,7 +135,7 @@ const LinkEvento = (props) => {
       return;
     }
     if (!termsAccepted) {
-      alert("Você deve aceitar os termos e condições antes de enviar.");
+      alert("Você deve aceitar os termos e condições antes de assinar.");
       return;
     }
     setOpenConfirmDialog(true);
@@ -301,6 +301,29 @@ const LinkEvento = (props) => {
     });
   };
 
+  const isFormValid = () => {
+    if (isAdult) {
+      return (
+        formData.nome &&
+        formData.dataNascimento &&
+        formData.email &&
+        formData.ddd &&
+        formData.telefone &&
+        termsAccepted
+      );
+    } else {
+      return (
+        formData.nomeResp &&
+        formData.cpfResp &&
+        formData.dataNascimentoResp &&
+        formData.dddResp &&
+        formData.telefoneResp &&
+        formData.emailResp &&
+        termsAccepted
+      );
+    }
+  };
+
   return (
     <>
       <AppBar
@@ -420,8 +443,9 @@ const LinkEvento = (props) => {
                   variant="contained"
                   color="primary"
                   style={{ backgroundColor: "#004A8D", width: "100%" }}
+                  disabled={!isFormValid()}
                 >
-                  Enviar
+                  Assinar
                 </Button>
                 <Button
                   variant="contained"
@@ -528,8 +552,9 @@ const LinkEvento = (props) => {
                   variant="contained"
                   color="primary"
                   style={{ backgroundColor: "#004A8D", width: "100%" }}
+                  disabled={!isFormValid()}
                 >
-                  Enviar
+                  Assinar
                 </Button>
 
                 <Button
@@ -651,8 +676,9 @@ const LinkEvento = (props) => {
                   variant="contained"
                   color="primary"
                   style={{ backgroundColor: "#004A8D", width: "100%" }}
+                  disabled={!isFormValid()}
                 >
-                  Enviar
+                  Assinar
                 </Button>
                 <Button
                   variant="contained"
@@ -758,8 +784,9 @@ const LinkEvento = (props) => {
                   variant="contained"
                   color="primary"
                   style={{ backgroundColor: "#004A8D", width: "100%" }}
+                  disabled={!isFormValid()}
                 >
-                  Enviar
+                  Assinar
                 </Button>
 
                 <Button
