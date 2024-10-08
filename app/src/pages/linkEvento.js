@@ -311,13 +311,14 @@ const LinkEvento = (props) => {
     </>
   ) : isCpfValid ? (
     <>
-      <DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal', textAlign: 'justify' }}>
-        TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES
-      </DialogTitle>
+      
       
       
       {isAdult ? (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+    <DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal', textAlign: 'justify' }}>
+        TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES
+      </DialogTitle>
     <DialogContentText id="terms-dialog-description-adult" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
             Eu, <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimento)}</strong>, CPF: <strong>{(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong>, autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
             A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
@@ -354,11 +355,7 @@ const LinkEvento = (props) => {
   </div>
 ) : (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
-    <DialogContentText id="terms-dialog-description" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
-            Eu, <strong>{formData.nomeResp}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimentoResp)}</strong>, CPF: <strong>{(formData.cpfResp)}</strong>, e-mail: <strong>{formData.emailResp}</strong>, telefone: <strong>({formData.dddResp}){formData.telefoneResp}</strong>, responsável de <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimento)}</strong>, CPF: <strong>{(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong>, autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
-            A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
-            A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
-      </DialogContentText>
+    
     <h3>Dados do Responsável</h3>
     
     <TextField
@@ -423,6 +420,18 @@ const LinkEvento = (props) => {
       fullWidth
       required
     />
+
+      
+
+<DialogTitle id="terms-dialog-title" style={{ fontSize: '18px', fontWeight: 'normal', textAlign: 'center' }}>
+        TERMO DE AUTORIZAÇÃO PARA USO DE NOME, IMAGEM, VOZ E DECLARAÇÕES
+      </DialogTitle>
+    <DialogContentText id="terms-dialog-description" style={{ fontSize: '16px', fontWeight: 'normal', textAlign: 'justify' }}>
+            Eu, <strong>{formData.nomeResp}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimentoResp)}</strong>, CPF: <strong>{(formData.cpfResp)}</strong>, e-mail: <strong>{formData.emailResp}</strong>, telefone: <strong>({formData.dddResp}){formData.telefoneResp}</strong>, responsável de <strong>{formData.nome}</strong>, brasileiro(a), nascido(a) em <strong>{(formData.dataNascimento)}</strong>, CPF: <strong>{(formData.cpf)}</strong>, e-mail: <strong>{formData.email}</strong>, telefone: <strong>({formData.ddd}){formData.telefone}</strong>, autorizo o Serviço Nacional de Aprendizagem Comercial - Senac- PE a utilizar, gratuitamente, o nome, a(s) imagem(ns), voz e declarações/depoimentos produzidos na execução da Competição Senac-PE de Educação Profissional para fins de divulgação em emissoras de TV aberta/fechada, internet e demais canais de comunicação da instituição, de caráter institucional e sem finalidade lucrativa.<br /><br />
+            A presente autorização abrange a captação, fixação e utilização de nome, imagem, voz e declarações para utilização no Brasil e exterior, extensível a todos e quaisquer meios de comunicação ao público, sendo outorgada livre e espontaneamente, em caráter gratuito, irrevogável e irretratável, sem qualquer custo ou ônus para o Senac-PE, seja a que título for, sem limite de tempo ou de número de utilizações, obrigando-se inclusive em todos os seus termos, por mim, meus herdeiros e sucessores.<br /><br />
+            A qualquer tempo, poderei requerer informações acerca dos dados pessoais, podendo inclusive, solicitar ao Senac-PE a retificação dos mesmos, bem como a revogação do consentimento em relação ao seu tratamento.
+      </DialogContentText>
+
 
       <FormControlLabel
         control={
