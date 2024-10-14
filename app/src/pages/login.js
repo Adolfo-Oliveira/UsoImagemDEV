@@ -37,33 +37,37 @@ const Login = () => {
   };
 
   const btEntrar = () => {
-    setOpenDialog(true)
+    setOpenDialog(true);
     const params = { 
       method: 'POST', 
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
         password, 
-        email 
-      }) 
-    }
-
+        email, 
+      }),
+    };
+  
     fetch(`${process.env.REACT_APP_DOMAIN_API}/api/authentication/`, params)
-      .then(response => {
-        const { status } = response
-        response.json().then(data => {
-          setOpenDialog(false)
-          if(status === 401) {
-            setMessage(data.message)
-            setOpenMessageDialog(true)
-          } else if(status === 200) {
+      .then((response) => {
+        const { status } = response;
+        response.json().then((data) => {
+          setOpenDialog(false);
+          if (status === 401) {
+            setMessage(data.message); // Mensagem de erro para login inválido
+            setOpenMessageDialog(true);
+          } else if (status === 403) {
+            setMessage(data.message); // Mensagem informando sobre a liberação do acesso
+            setOpenMessageDialog(true);
+          } else if (status === 200) {
             document.cookie = `_token_uso_imagem=${data.token}`;
             window.location.href = `${process.env.REACT_APP_DOMAIN}/home`;
           }
-        })
-      })
-  }
+        });
+      });
+  };
+  
 
   useEffect(() => {
     isAutenticated().then((_) => {

@@ -1,4 +1,3 @@
-/* eslint-disable n/handle-callback-err */
 import { Request, Response, NextFunction } from 'express'
 import ActivityDirectory from 'activedirectory'
 import Usuario from '../model/usuario.model'
@@ -22,29 +21,26 @@ class AuthenticationController {
       const ad = new ActivityDirectory(config)
 
       if (!email) {
-        return res
-          .status(401)
-          .json({
-            message: 'O campo e-mail deve ser preenchido corretamente.'
-          })
+        return res.status(401).json({
+          message: 'O campo e-mail deve ser preenchido corretamente.'
+        })
       }
 
       if (!password) {
-        return res
-          .status(401)
-          .json({ message: 'O campo senha deve ser preenchido corretamente.' })
+        return res.status(401).json({
+          message: 'O campo senha deve ser preenchido corretamente.'
+        })
       }
 
       if (configuracao?.autenticacaoAd) {
         ad.authenticate(`${email}`, password, async (err, auth) => {
           if (err) {
-            return res
-              .status(401)
-              .json({ message: 'Login ou senha inválidos.' })
+            return res.status(401).json({ message: 'Login ou senha inválidos.' })
           }
 
           if (auth) {
             let usuario = await Usuario.findOne({ where: { email } })
+            console.log('Usuário encontrado:', usuario)
             if (!usuario) {
               await Usuario.create({
                 email,
@@ -53,12 +49,20 @@ class AuthenticationController {
             }
 
             usuario = await Usuario.findOne({ where: { email } })
-            return res
-              .status(200)
-              .json({
+            console.log('Usuário após criação:', usuario)
+
+            // Verifica se o acesso é verdadeiro
+            if (usuario?.acesso === true) {
+              return res.status(200).json({
                 message: 'Usuário validado com sucesso.',
                 token: usuario?.generateToken()
               })
+            } else {
+              console.log('Acesso negado:', usuario?.acesso)
+              return res.status(403).json({
+                message: 'Acesso negado. Você deve ser validado pelo setor GTI.'
+              })
+            }
           }
         })
       } else {
@@ -67,25 +71,47 @@ class AuthenticationController {
         })
 
         if (!registro) {
-          return res
-            .status(401)
-            .json({ message: 'Não foi possível localizar o usuário.' })
+          return res.status(401).json({ message: 'Não foi possível localizar o usuário.' })
         }
 
         if (!(await bcrypt.compare(password, registro.passwordHash))) {
           return res.status(401).json({ message: 'Senha inválida.' })
         }
 
-        return res
-          .status(200)
-          .json({
+        // Verifica se o acesso é verdadeiro
+        if (registro.acesso === true) {
+          return res.status(200).json({
             message: 'Usuário validado com sucesso.',
             token: registro.generateToken()
           })
+        } else {
+          return res.status(403).json({
+            message: 'Acesso negado. Você deve ser validado pelo setor GTI.'
+          })
+        }
       }
     } catch (err) {
       console.log(err)
       res.status(400).json({ message: 'Login ou senha inválidos.' })
+    }
+  }
+
+  async validarAcesso (req: Request, res: Response): Promise<any> {
+    try {
+      const { email } = req.body
+      const usuario = await Usuario.findOne({ where: { email } })
+
+      if (!usuario) {
+        return res.status(404).json({ message: 'Usuário não encontrado.' })
+      }
+
+      // Após a validação do outro setor, atualize o campo acesso
+      await usuario.update({ acesso: true }) // Assumindo que 'true' é a validação
+
+      return res.status(200).json({ message: 'Usuário validado pela GTI.' })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).json({ message: 'Erro ao validar usuário.' })
     }
   }
 

@@ -131,6 +131,7 @@ class UsuarioController implements IController {
         ativo,
         primeiroLogin,
         validado: true,
+        acesso: true,
         fkValidador: req.usuario.id
       }, {
         where: {
@@ -140,7 +141,6 @@ class UsuarioController implements IController {
       })
 
       const registro = await Usuario.findOne({ where: { id } })
-
       res.status(200).json({ data: registro, message: 'Usuário validado com sucesso.' })
     } catch (err) {
       console.log(err)

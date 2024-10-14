@@ -96,6 +96,10 @@ Usuario.init({
     allowNull: false,
     defaultValue: false
   },
+  acesso: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   fkValidador: {
     type: DataTypes.UUID,
     allowNull: true
