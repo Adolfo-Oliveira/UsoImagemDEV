@@ -23,6 +23,7 @@ class UsuarioRouter {
     this.router.post('/:id/edit', routerMiddleware.role([PerfilUtils.Administrador]), controller.update)
     this.router.post('/:id/validar', routerMiddleware.role([PerfilUtils.Administrador, PerfilUtils.Gerente]), controller.validar)
     this.router.post('/edit/primeiroacesso/', controller.updatePrimeiroAcesso)
+    // this.router.post('/confirmar-acesso/:id', controller.confirmarAcesso)
     this.router.post('/:id/delete', controller.delete)
   }
 }

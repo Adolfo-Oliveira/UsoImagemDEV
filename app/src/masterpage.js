@@ -50,6 +50,7 @@ import ValidarUsuarioForm from "./pages/validar-usuario-form";
 import LinkEvento from "./pages/linkEvento";
 import Assinaturas from "./pages/assinaturas";
 import QrCode from "./pages/QrCode";
+import ConfirmarAcesso from "./pages/confirmarAcesso";
 
 const getCookie = require("./utils/getCookie")
 
@@ -451,6 +452,11 @@ const Masterpage = (props) => {
             exact
             path="/linkEvento/:eventoId"
             render={(props) => <LinkEvento {...props} logged={logged} />}
+          />
+          <Route
+            exact
+            path="/confirmar-acesso"
+            render={(props) => <ConfirmarAcesso {...props} logged={logged} />}
           />
 
           <Route

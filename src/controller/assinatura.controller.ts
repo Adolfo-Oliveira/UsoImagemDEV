@@ -3,6 +3,7 @@ import { IController } from './controller.inteface'
 import Assinatura from '../model/assinatura.model'
 import moment from 'moment-timezone'
 import EmailEnviar from '../model/emailEnviar.model'
+import Usuario from '../model/usuario.model'
 const { v4: uuidv4 } = require('uuid')
 
 class AssinaturaController implements IController {
@@ -88,9 +89,28 @@ class AssinaturaController implements IController {
     }
   }
 
-  async update (req: Request, res: Response, next: NextFunction): Promise<any> {
-    throw new Error('Method not implemented.')
+  async confirmarAcesso (req: Request, res: Response): Promise<any> {
+    try {
+      const { id } = req.body
+
+      console.log('gggg')
+      const usuario = await Usuario.findOne({ where: { id } })
+
+
+      if (!usuario) {
+        return res.status(404).json({ message: 'Usuário não encontrado.' })
+      }
+
+      // Após a validação do outro setor, atualize o campo acesso
+      await usuario.update({ acesso: true }) // Assumindo que 'true' é a validação
+
+      return res.status(200).json({ message: 'Usuário validado pela GTI.' })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).json({ message: 'Erro ao validar usuário.' })
+    }
   }
+
 
   async delete (req: Request, res: Response, next: NextFunction): Promise<any> {
     throw new Error('Method not implemented.')

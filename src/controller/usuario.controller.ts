@@ -251,6 +251,20 @@ class UsuarioController implements IController {
     }
   }
 
+  async confirmarAcesso (req: Request, res: Response): Promise<any> {
+    try {
+      const { id } = req.params
+
+      // Atualiza o campo acesso para true
+      await Usuario.update({ acesso: true }, { where: { id } })
+
+      return res.status(200).json({ message: 'Acesso confirmado com sucesso.' })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).json({ message: 'Erro ao confirmar o acesso.' })
+    }
+  }
+
   async naoValidado (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
       const area = await Area.findOne({ where: { id: req.usuario.fkArea } })
