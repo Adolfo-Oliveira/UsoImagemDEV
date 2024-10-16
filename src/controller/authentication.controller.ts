@@ -3,7 +3,6 @@ import ActivityDirectory from 'activedirectory'
 import Usuario from '../model/usuario.model'
 import ConfiguracaoGlobal from '../model/configuracaoGeral.model'
 import bcrypt from 'bcrypt'
-import { Utils } from 'sequelize'
 import emailUtils from '../utils/email.utils'
 
 class AuthenticationController {
@@ -21,7 +20,6 @@ class AuthenticationController {
       }
 
       const ad = new ActivityDirectory(config)
-      console.log('aqui:'+JSON.stringify(ad))
 
       if (!email) {
         return res.status(401).json({
@@ -36,14 +34,14 @@ class AuthenticationController {
       }
 
       if (configuracao?.autenticacaoAd) {
-      
         ad.authenticate(`${email}`, password, async (err, auth) => {
           if (err) {
-            return res.status(401).json({ message: 'Login ou senha inválidos.' })
+            return res
+              .status(401)
+              .json({ message: 'Login ou senha inválidos.' })
           }
 
           if (auth) {
-         
             let usuario = await Usuario.findOne({ where: { email } })
             console.log('Usuário encontrado:', usuario)
             if (!usuario) {
@@ -54,7 +52,6 @@ class AuthenticationController {
             }
 
             usuario = await Usuario.findOne({ where: { email } })
-            console.log('Usuário após criação:', usuario)
 
             // Verifica se o acesso é verdadeiro
             if (usuario?.acesso === true) {
@@ -75,7 +72,8 @@ class AuthenticationController {
 
               emailUtils.enviar('adolfoooliveira@gmail.com', txEmail)
               return res.status(403).json({
-                message: 'Acesso negado. Você deve ser validado pelo setor GTI.'
+                message:
+                  'Acesso negado. Você deve ser validado pelo setor GTI.'
               })
             }
           }
@@ -86,7 +84,9 @@ class AuthenticationController {
         })
 
         if (!registro) {
-          return res.status(401).json({ message: 'Não foi possível localizar o usuário.' })
+          return res
+            .status(401)
+            .json({ message: 'Não foi possível localizar o usuário.' })
         }
 
         if (!(await bcrypt.compare(password, registro.passwordHash))) {

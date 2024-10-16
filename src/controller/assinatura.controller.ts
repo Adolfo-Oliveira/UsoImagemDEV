@@ -20,12 +20,25 @@ class AssinaturaController implements IController {
 
   async create (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { cpf, nome, dataNasc, email, ddd, telefone, cpfResp, nomeResp, dataNascResp, emailResp, dddResp, telefoneResp, fkEvento, ip } = req.body
+      const {
+        cpf,
+        nome,
+        dataNasc,
+        email,
+        ddd,
+        telefone,
+        cpfResp,
+        nomeResp,
+        dataNascResp,
+        emailResp,
+        dddResp,
+        telefoneResp,
+        fkEvento,
+        ip
+      } = req.body
       const localTime = moment.tz(new Date(), 'America/Recife').format()
       const dataNascLocal = moment.tz(dataNasc, 'America/Recife').format('YYYY-MM-DD HH:mm:ss')
       const dataNascLocalResp = dataNascResp ? moment.tz(dataNascResp, 'America/Recife').format('YYYY-MM-DD HH:mm:ss') : null
-
-      console.log(req.body)
 
       await Assinatura.create({
         id: uuidv4(),
@@ -66,7 +79,8 @@ class AssinaturaController implements IController {
       if (error.name === 'SequelizeUniqueConstraintError') {
         res.status(409).json({ message: 'O usuario já assinou o termo.' })
       } else {
-        const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido'
+        const errorMessage =
+          error instanceof Error ? error.message : 'Erro desconhecido'
         res.status(500).json({ message: `Erro ao assinar: ${errorMessage}` })
       }
     }
@@ -92,17 +106,14 @@ class AssinaturaController implements IController {
   async confirmarAcesso (req: Request, res: Response): Promise<any> {
     try {
       const { id } = req.body
-
-      console.log('gggg')
       const usuario = await Usuario.findOne({ where: { id } })
-
 
       if (!usuario) {
         return res.status(404).json({ message: 'Usuário não encontrado.' })
       }
 
       // Após a validação do outro setor, atualize o campo acesso
-      await usuario.update({ acesso: true }) // Assumindo que 'true' é a validação
+      await usuario.update({ acesso: true })
 
       return res.status(200).json({ message: 'Usuário validado pela GTI.' })
     } catch (err) {
@@ -110,7 +121,6 @@ class AssinaturaController implements IController {
       return res.status(400).json({ message: 'Erro ao validar usuário.' })
     }
   }
-
 
   async delete (req: Request, res: Response, next: NextFunction): Promise<any> {
     throw new Error('Method not implemented.')
