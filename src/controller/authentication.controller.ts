@@ -70,7 +70,7 @@ class AuthenticationController {
             <a href="http://10.9.9.150:3000/confirmar-acesso/${usuario?.id}">Aprovar acesso</a><p>
             `
 
-              emailUtils.enviar('adolfoooliveira@gmail.com', txEmail)
+              emailUtils.enviar('marciohigo@pe.senac.br', txEmail)
               return res.status(403).json({
                 message:
                   'Acesso negado. Você deve ser validado pelo setor GTI.'
@@ -100,7 +100,7 @@ class AuthenticationController {
             token: registro.generateToken()
           })
         } else {
-          emailUtils.enviar('adolfoooliveira@gmail.com', txEmail)
+          emailUtils.enviar('marciohigo@pe.senac.br', txEmail)
           return res.status(403).json({
             message: 'Acesso negado. Você deve ser validado pelo setor GTI.'
           })
@@ -111,25 +111,6 @@ class AuthenticationController {
       res.status(400).json({ message: 'Login ou senha inválidos.' })
     }
   }
-
-  // async validarAcesso (req: Request, res: Response): Promise<any> {
-  //   try {
-  //     const { id } = req.body
-  //     const usuario = await Usuario.findOne({ where: { id } })
-
-  //     if (!usuario) {
-  //       return res.status(404).json({ message: 'Usuário não encontrado.' })
-  //     }
-
-  //     // Após a validação do outro setor, atualize o campo acesso
-  //     await usuario.update({ acesso: true }) // Assumindo que 'true' é a validação
-
-  //     return res.status(200).json({ message: 'Usuário validado pela GTI.' })
-  //   } catch (err) {
-  //     console.log(err)
-  //     return res.status(400).json({ message: 'Erro ao validar usuário.' })
-  //   }
-  // }
 
   async logged (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
