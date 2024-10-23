@@ -68,6 +68,11 @@ module.exports = {
         allowNull: false,
         defaultValue: true
       },
+      acesso: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false

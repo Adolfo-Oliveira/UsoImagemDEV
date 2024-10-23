@@ -34,6 +34,7 @@ module.exports = {
         ativo: true,
         demandante: false,
         primeiroLogin: true,
+        acesso: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -50,6 +51,7 @@ module.exports = {
         validado: true,
         ativo: true,
         primeiroLogin: false,
+        acesso: false,
         createdAt: new Date(),
         updatedAt: new Date()
       }

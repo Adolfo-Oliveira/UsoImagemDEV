@@ -4,7 +4,7 @@ require('dotenv').config({ path: process.env.DEVMODE?.trim() === 'test' ? '.env.
 
 console.log(process.env.HOST)
 
-const sequelize = new Sequelize('UsoImagemDEV', 'usoimagem', '3DCN6}Xa1NY6', {
+const sequelize = new Sequelize('UsoImagem', 'usoimagem', '3DCN6}Xa1NY6', {
   host: '10.9.8.74',
   dialect: 'mssql',
   logging: false,

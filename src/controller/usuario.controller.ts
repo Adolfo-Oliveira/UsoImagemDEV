@@ -47,10 +47,14 @@ class UsuarioController implements IController {
         where: {
           id
         },
-        include: [{
-          model: Area, as: 'Area', include: [Unidade]
-        },
-        Perfil]
+        include: [
+          {
+            model: Area,
+            as: 'Area',
+            include: [Unidade]
+          },
+          Perfil
+        ]
       })
 
       res.status(200).json({ data: registro })
@@ -78,26 +82,31 @@ class UsuarioController implements IController {
 
       console.log(req.body)
 
-      await Usuario.update({
-        nome,
-        telefone,
-        chapa,
-        demandante,
-        fkPerfil,
-        fkUnidade,
-        fkArea,
-        ativo,
-        primeiroLogin
-      }, {
-        where: {
-          id
+      await Usuario.update(
+        {
+          nome,
+          telefone,
+          chapa,
+          demandante,
+          fkPerfil,
+          fkUnidade,
+          fkArea,
+          ativo,
+          primeiroLogin
         },
-        individualHooks: false
-      })
+        {
+          where: {
+            id
+          },
+          individualHooks: false
+        }
+      )
 
       const registro = await Usuario.findOne({ where: { id } })
 
-      res.status(200).json({ data: registro, message: 'Alteração realizada com sucesso.' })
+      res
+        .status(200)
+        .json({ data: registro, message: 'Alteração realizada com sucesso.' })
     } catch (err) {
       console.log(err)
       res.status(401).json({ message: err.errors[0].message })
@@ -120,87 +129,112 @@ class UsuarioController implements IController {
         primeiroLogin
       } = req.body
 
-      await Usuario.update({
-        nome,
-        telefone,
-        chapa,
-        demandante,
-        fkPerfil,
-        fkUnidade,
-        fkArea,
-        ativo,
-        primeiroLogin,
-        validado: true,
-        fkValidador: req.usuario.id
-      }, {
-        where: {
-          id
+      await Usuario.update(
+        {
+          nome,
+          telefone,
+          chapa,
+          demandante,
+          fkPerfil,
+          fkUnidade,
+          fkArea,
+          ativo,
+          primeiroLogin,
+          validado: true,
+          acesso: true,
+          fkValidador: req.usuario.id
         },
-        individualHooks: false
-      })
+        {
+          where: {
+            id
+          },
+          individualHooks: false
+        }
+      )
 
       const registro = await Usuario.findOne({ where: { id } })
-
-      res.status(200).json({ data: registro, message: 'Usuário validado com sucesso.' })
+      res
+        .status(200)
+        .json({ data: registro, message: 'Usuário validado com sucesso.' })
     } catch (err) {
       console.log(err)
       res.status(401).json({ message: err.errors[0].message })
     }
   }
 
-  async updatePrimeiroAcesso (req: any, res: Response, next: NextFunction): Promise<any> {
+  async updatePrimeiroAcesso (
+    req: any,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
     try {
-      const {
-        nome,
-        telefone,
-        chapa,
-        fkPerfil,
-        fkUnidade,
-        fkArea
-      } = req.body
+      const { nome, telefone, chapa, fkPerfil, fkUnidade, fkArea } = req.body
 
       if (!nome) {
-        return res.status(401).json({ message: 'O campo nome deve ser preenchido corretamente.' })
+        return res
+          .status(401)
+          .json({ message: 'O campo nome deve ser preenchido corretamente.' })
       }
 
       if (!chapa) {
-        return res.status(401).json({ message: 'O campo chapa deve ser preenchido corretamente.' })
+        return res
+          .status(401)
+          .json({ message: 'O campo chapa deve ser preenchido corretamente.' })
       }
 
       if (!telefone) {
-        return res.status(401).json({ message: 'O campo telefone deve ser preenchido corretamente.' })
+        return res
+          .status(401)
+          .json({
+            message: 'O campo telefone deve ser preenchido corretamente.'
+          })
       }
 
       if (!fkPerfil) {
-        return res.status(401).json({ message: 'O campo perfil deve ser preenchido corretamente.' })
+        return res
+          .status(401)
+          .json({
+            message: 'O campo perfil deve ser preenchido corretamente.'
+          })
       }
 
       if (!fkUnidade) {
-        return res.status(401).json({ message: 'O campo unidade deve ser preenchido corretamente.' })
+        return res
+          .status(401)
+          .json({
+            message: 'O campo unidade deve ser preenchido corretamente.'
+          })
       }
 
       if (!fkArea) {
-        return res.status(401).json({ message: 'O campo área deve ser preenchido corretamente.' })
+        return res
+          .status(401)
+          .json({ message: 'O campo área deve ser preenchido corretamente.' })
       }
 
-      await Usuario.update({
-        nome,
-        telefone,
-        chapa,
-        fkPerfil,
-        fkUnidade,
-        fkArea,
-        primeiroLogin: false
-      }, {
-        where: {
-          id: req.usuario.id
+      await Usuario.update(
+        {
+          nome,
+          telefone,
+          chapa,
+          fkPerfil,
+          fkUnidade,
+          fkArea,
+          primeiroLogin: false
         },
-        individualHooks: false
-      })
+        {
+          where: {
+            id: req.usuario.id
+          },
+          individualHooks: false
+        }
+      )
 
       const registro = await Usuario.findOne({ where: { id: req.usuario.id } })
 
-      res.status(200).json({ data: registro, message: 'Alteração realizada com sucesso.' })
+      res
+        .status(200)
+        .json({ data: registro, message: 'Alteração realizada com sucesso.' })
     } catch (err) {
       console.log(err)
       res.status(401).json({ message: err.errors[0].message })
@@ -251,6 +285,22 @@ class UsuarioController implements IController {
     }
   }
 
+  async confirmarAcesso (req: Request, res: Response): Promise<any> {
+    try {
+      const { id } = req.params
+
+      // Atualiza o campo acesso para true
+      await Usuario.update({ acesso: true }, { where: { id } })
+
+      return res
+        .status(200)
+        .json({ message: 'Acesso confirmado com sucesso.' })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).json({ message: 'Erro ao confirmar o acesso.' })
+    }
+  }
+
   async naoValidado (req: any, res: Response, next: NextFunction): Promise<any> {
     try {
       const area = await Area.findOne({ where: { id: req.usuario.fkArea } })
@@ -261,14 +311,24 @@ class UsuarioController implements IController {
       const offset = (pagina - 1) * tamanho
       const limit = tamanho
 
-      const numeroDePaginas = Math.ceil((await Usuario.count({ include: [Perfil, { model: Area, include: [{ model: Unidade, where: { id: area?.fkUnidade } }] }] })) / tamanho)
+      const numeroDePaginas = Math.ceil(
+        (await Usuario.count({
+          include: [
+            Perfil,
+            {
+              model: Area,
+              include: [{ model: Unidade, where: { id: area?.fkUnidade } }]
+            }
+          ]
+        })) / tamanho
+      )
 
       const registros = await Usuario.findAll({
         limit,
         offset,
         include: [Perfil, { model: Area, include: [Unidade] }],
         where: {
-          '$Area.fkUnidade$': area?.fkUnidade,
+          "$Area.fkUnidade$": area?.fkUnidade,
           validado: false
         }
       })
