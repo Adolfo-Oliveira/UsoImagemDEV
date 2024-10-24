@@ -73,7 +73,7 @@ class AuthenticationController {
                 "pt-BR"
               )}.</b><br>
               <br/>
-              <a href="http://10.9.9.150:3000/confirmar-acesso/${
+              <a href="https://www7.pe.senac.br/usoimagem/confirmar-acesso/${
                 usuario?.id
               }">Aprovar acesso</a><p>
             `
