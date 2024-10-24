@@ -115,7 +115,7 @@ class AssinaturaController implements IController {
       // Após a validação do outro setor, atualize o campo acesso
       await usuario.update({ acesso: true })
 
-      return res.status(200).json({ message: 'Usuário validado pela GTI.' })
+      return res.status(200).json({ message: `Usuário ${usuario?.email} validado pela GTI.` })
     } catch (err) {
       console.log(err)
       return res.status(400).json({ message: 'Erro ao validar usuário.' })

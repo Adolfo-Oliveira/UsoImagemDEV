@@ -6,11 +6,12 @@ import bcrypt from 'bcrypt'
 import emailUtils from '../utils/email.utils'
 
 class AuthenticationController {
-  async login (req: Request, res: Response, next: NextFunction): Promise<any> {
+  async login(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { email, password } = req.body
+      const { email, password } = req.body;
 
       const configuracao = await ConfiguracaoGlobal.findOne()
+      const emailAutoriza = configuracao?.emailAutoriza
 
       const config = {
         url: configuracao?.urlAd,
@@ -62,15 +63,22 @@ class AuthenticationController {
             } else {
               console.log('Acesso negado:', usuario?.acesso)
 
+              const dataSolicitacao = new Date(usuario?.createdAt)
+              dataSolicitacao.setDate(dataSolicitacao.getDate() + 1)
+
               const txEmail = `
-            <b>O usuário ${usuario?.email}.</b><br>
-            <b>Solicita acesso ao sistema de uso de imagem</b><br>
-           
-            <br/>
-            <a href="http://10.9.9.150:3000/confirmar-acesso/${usuario?.id}">Aprovar acesso</a><p>
+              <h1> Sistema Uso de Imagem </h1>
+              <b>O usuário ${usuario?.email},</b><br>
+              <b>Solicitou acesso ao sistema de uso de imagem na data: ${dataSolicitacao.toLocaleDateString(
+                "pt-BR"
+              )}.</b><br>
+              <br/>
+              <a href="http://10.9.9.150:3000/confirmar-acesso/${
+                usuario?.id
+              }">Aprovar acesso</a><p>
             `
 
-              emailUtils.enviar('marciohigo@pe.senac.br', txEmail)
+              emailUtils.enviar(configuracao?.emailAutoriza, txEmail)
               return res.status(403).json({
                 message:
                   'Acesso negado. Você deve ser validado pelo setor GTI.'
@@ -100,7 +108,7 @@ class AuthenticationController {
             token: registro.generateToken()
           })
         } else {
-          emailUtils.enviar('marciohigo@pe.senac.br', txEmail)
+          emailUtils.enviar(configuracao?.emailAutoriza, txEmail)
           return res.status(403).json({
             message: 'Acesso negado. Você deve ser validado pelo setor GTI.'
           })
