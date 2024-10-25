@@ -6,9 +6,9 @@ import bcrypt from 'bcrypt'
 import emailUtils from '../utils/email.utils'
 
 class AuthenticationController {
-  async login(req: Request, res: Response, next: NextFunction): Promise<any> {
+  async login (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      const { email, password } = req.body;
+      const { email, password } = req.body
 
       const configuracao = await ConfiguracaoGlobal.findOne()
       const emailAutoriza = configuracao?.emailAutoriza
@@ -70,7 +70,7 @@ class AuthenticationController {
               <h1> Sistema Uso de Imagem </h1>
               <b>O usuário ${usuario?.email},</b><br>
               <b>Solicitou acesso ao sistema de uso de imagem na data: ${dataSolicitacao.toLocaleDateString(
-                "pt-BR"
+                'pt-BR'
               )}.</b><br>
               <br/>
               <a href="https://www7.pe.senac.br/usoimagem/confirmar-acesso/${
