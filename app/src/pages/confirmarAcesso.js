@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -12,52 +12,75 @@ const ValidarUsuario = (props) => {
   const { id } = props.match.params;
 
   const [message, setMessage] = useState("");
-  const [open, setOpen] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(true); // Inicialmente abre o diálogo de confirmação
+  const [openMessageDialog, setOpenMessageDialog] = useState(false);
 
-  useEffect(() => {
-    const validarUsuario = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_DOMAIN_API}/api/assinatura/confirmar-acesso/${id}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id }),
-          }
-        );
-
-        const data = await response.json();
-
-        if (response.status === 200) {
-          setMessage(data.message);
-        } else {
-          setMessage("Erro ao validar o usuário.");
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_DOMAIN_API}/api/assinatura/confirmar-acesso/${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
         }
-        setOpen(true); // Abre o diálogo após a resposta
-      } catch (error) {
-        setMessage("Erro ao conectar com o servidor.");
+      );
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        setMessage(data.message);
+      } else {
+        setMessage("Erro ao validar o usuário.");
       }
-    };
+    } catch (error) {
+      setMessage("Erro ao conectar com o servidor.");
+    }
 
-    validarUsuario();
-  }, [id]);
+    setOpenConfirmDialog(false); // Fecha o diálogo de confirmação
+    setOpenMessageDialog(true); // Mostra o resultado
+  };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCancel = () => {
+    setOpenConfirmDialog(false);
+    setMessage("Ação cancelada.");
+    setOpenMessageDialog(true); // Mostra o resultado da ação cancelada
+  };
+
+  const handleCloseMessageDialog = () => {
+    setOpenMessageDialog(false);
   };
 
   return (
     <div style={{ textAlign: "center" }}>
       <h1>Validação de Usuário</h1>
-      <Dialog open={open} onClose={handleClose}>
+
+      {/* Diálogo de Confirmação */}
+      <Dialog open={openConfirmDialog}>
         <DialogTitle>Confirmação</DialogTitle>
+        <DialogContent>
+          <Typography>Deseja confirmar o acesso para este usuário?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="secondary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirm} color="primary">
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Diálogo de Mensagem */}
+      <Dialog open={openMessageDialog} onClose={handleCloseMessageDialog}>
+        <DialogTitle>Resultado</DialogTitle>
         <DialogContent>
           <Typography>{message}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCloseMessageDialog} color="primary">
             Fechar
           </Button>
         </DialogActions>
