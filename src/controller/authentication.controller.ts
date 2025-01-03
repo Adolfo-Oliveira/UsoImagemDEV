@@ -66,9 +66,18 @@ class AuthenticationController {
               const dataSolicitacao = new Date(usuario?.createdAt)
               dataSolicitacao.setDate(dataSolicitacao.getDate() + 1)
 
+              const user = await Usuario.sequelize?.query(`
+                SELECT TOP 1 NOME, CARGO, UNIDADE
+                FROM TermoAceite.dbo.TOTVS
+                WHERE email = '${usuario?.email}' AND EMAIL LIKE '%@pe.senac.br%' AND SITUACAO <> 'Demitido'
+              `)
+
+              console.log(JSON.stringify(user))
+              const userResult = user[0]?.[0]
+
               const txEmail = `
               <h1> Sistema Uso de Imagem </h1>
-              <b>O usuário ${usuario?.email},</b><br>
+              <br>O usuário ${userResult.NOME}, de cargo ${userResult.CARGO} da unidade ${userResult.UNIDADE}, com o email ${usuario?.email}, <br></>
               <b>Solicitou acesso ao sistema de uso de imagem na data: ${dataSolicitacao.toLocaleDateString(
                 'pt-BR'
               )}.</b><br>
@@ -76,7 +85,7 @@ class AuthenticationController {
               <a href="https://www7.pe.senac.br/usoimagem/confirmar-acesso/${
                 usuario?.id
               }">Aprovar acesso</a><p>
-            `
+              `
 
               emailUtils.enviar(configuracao?.emailAutoriza, txEmail)
               return res.status(403).json({
