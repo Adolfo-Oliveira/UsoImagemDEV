@@ -124,7 +124,7 @@ const Assinaturas = (props) => {
     <div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <TextField
-          label="Buscar por nome da assinatura"
+          label="Pesquisar por nome da assinatura"
           variant="outlined"
           fullWidth
           value={filtroNome}

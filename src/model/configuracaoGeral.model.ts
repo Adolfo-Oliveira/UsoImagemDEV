@@ -49,6 +49,10 @@ ConfiguracaoGeral.init({
     type: DataTypes.STRING,
     allowNull: true
   },
+  emailAutoriza: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   usernameAd: {
     type: DataTypes.STRING,
     allowNull: true

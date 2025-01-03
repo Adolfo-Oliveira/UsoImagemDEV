@@ -164,7 +164,7 @@ const Home = (props) => {
     <div>
       <div style={{display: "flex", justifyContent: "center"}}>
         <TextField
-          label="Buscar por título do evento"
+          label="Pesquisar por título do evento"
           variant="outlined"
           fullWidth
           value={filtroTitulo}

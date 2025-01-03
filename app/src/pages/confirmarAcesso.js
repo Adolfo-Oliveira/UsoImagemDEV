@@ -12,7 +12,7 @@ const ValidarUsuario = (props) => {
   const { id } = props.match.params;
 
   const [message, setMessage] = useState("");
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(true); // Inicialmente abre o diálogo de confirmação
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(true); 
   const [openMessageDialog, setOpenMessageDialog] = useState(false);
 
   const handleConfirm = async () => {
@@ -30,7 +30,7 @@ const ValidarUsuario = (props) => {
 
       const data = await response.json();
 
-      if (response.status === 200) {
+      if (response.ok) {
         setMessage(data.message);
       } else {
         setMessage("Erro ao validar o usuário.");
@@ -39,14 +39,14 @@ const ValidarUsuario = (props) => {
       setMessage("Erro ao conectar com o servidor.");
     }
 
-    setOpenConfirmDialog(false); // Fecha o diálogo de confirmação
-    setOpenMessageDialog(true); // Mostra o resultado
+    setOpenConfirmDialog(false);
+    setOpenMessageDialog(true);
   };
 
   const handleCancel = () => {
     setOpenConfirmDialog(false);
     setMessage("Ação cancelada.");
-    setOpenMessageDialog(true); // Mostra o resultado da ação cancelada
+    setOpenMessageDialog(true);
   };
 
   const handleCloseMessageDialog = () => {
@@ -59,7 +59,7 @@ const ValidarUsuario = (props) => {
 
       {/* Diálogo de Confirmação */}
       <Dialog open={openConfirmDialog}>
-        <DialogTitle>Confirmação</DialogTitle>
+        <DialogTitle>Validação</DialogTitle>
         <DialogContent>
           <Typography>Deseja confirmar o acesso para este usuário?</Typography>
         </DialogContent>
@@ -75,7 +75,7 @@ const ValidarUsuario = (props) => {
 
       {/* Diálogo de Mensagem */}
       <Dialog open={openMessageDialog} onClose={handleCloseMessageDialog}>
-        <DialogTitle>Validação</DialogTitle>
+        <DialogTitle>Resultado</DialogTitle>
         <DialogContent>
           <Typography>{message}</Typography>
         </DialogContent>
@@ -88,5 +88,6 @@ const ValidarUsuario = (props) => {
     </div>
   );
 };
+
 
 export default ValidarUsuario;

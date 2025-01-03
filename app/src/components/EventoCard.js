@@ -36,7 +36,7 @@ const adjustDate = (dateString) => {
             </Typography>
           )}
           <Typography color="text.secondary">
-            <b>Descricao:</b> {evento.descricao}
+            <b>Descrição:</b> {evento.descricao}
           </Typography>
           
           <Typography color="text.secondary">
