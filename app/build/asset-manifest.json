@@ -1,23 +1,20 @@
 {
   "files": {
-    "main.css": "/manualdereferencia/static/css/main.0f00bb68.chunk.css",
-    "main.js": "/manualdereferencia/static/js/main.b5e2543f.chunk.js",
-    "main.js.map": "/manualdereferencia/static/js/main.b5e2543f.chunk.js.map",
-    "runtime-main.js": "/manualdereferencia/static/js/runtime-main.4c79a982.js",
-    "runtime-main.js.map": "/manualdereferencia/static/js/runtime-main.4c79a982.js.map",
-    "static/js/2.121372ac.chunk.js": "/manualdereferencia/static/js/2.121372ac.chunk.js",
-    "static/js/2.121372ac.chunk.js.map": "/manualdereferencia/static/js/2.121372ac.chunk.js.map",
-    "index.html": "/manualdereferencia/index.html",
-    "precache-manifest.c1597d0a017902ba0ca4417278d7492b.js": "/manualdereferencia/precache-manifest.c1597d0a017902ba0ca4417278d7492b.js",
-    "service-worker.js": "/manualdereferencia/service-worker.js",
-    "static/css/main.0f00bb68.chunk.css.map": "/manualdereferencia/static/css/main.0f00bb68.chunk.css.map",
-    "static/js/2.121372ac.chunk.js.LICENSE.txt": "/manualdereferencia/static/js/2.121372ac.chunk.js.LICENSE.txt",
-    "static/media/login_background.jpg": "/manualdereferencia/static/media/login_background.99a97a82.jpg"
+    "main.js": "/usoimagem/static/js/main.d82810ef.chunk.js",
+    "main.js.map": "/usoimagem/static/js/main.d82810ef.chunk.js.map",
+    "runtime-main.js": "/usoimagem/static/js/runtime-main.7b8821df.js",
+    "runtime-main.js.map": "/usoimagem/static/js/runtime-main.7b8821df.js.map",
+    "static/js/2.6586fe3d.chunk.js": "/usoimagem/static/js/2.6586fe3d.chunk.js",
+    "static/js/2.6586fe3d.chunk.js.map": "/usoimagem/static/js/2.6586fe3d.chunk.js.map",
+    "index.html": "/usoimagem/index.html",
+    "precache-manifest.b5d35410ce70ac4b3e7921c9cb386525.js": "/usoimagem/precache-manifest.b5d35410ce70ac4b3e7921c9cb386525.js",
+    "service-worker.js": "/usoimagem/service-worker.js",
+    "static/js/2.6586fe3d.chunk.js.LICENSE.txt": "/usoimagem/static/js/2.6586fe3d.chunk.js.LICENSE.txt",
+    "static/media/imgEntrevista.jpg": "/usoimagem/static/media/imgEntrevista.8bf2469e.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.4c79a982.js",
-    "static/js/2.121372ac.chunk.js",
-    "static/css/main.0f00bb68.chunk.css",
-    "static/js/main.b5e2543f.chunk.js"
+    "static/js/runtime-main.7b8821df.js",
+    "static/js/2.6586fe3d.chunk.js",
+    "static/js/main.d82810ef.chunk.js"
   ]
 }
