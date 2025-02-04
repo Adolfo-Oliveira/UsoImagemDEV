@@ -23,109 +23,103 @@ class AuthenticationController {
       const ad = new ActivityDirectory(config)
 
       if (!email) {
-        return res.status(401).json({
-          message: 'O campo e-mail deve ser preenchido corretamente.'
-        })
+        return res.status(401).json({ message: 'O campo e-mail deve ser preenchido corretamente.' })
       }
 
       if (!password) {
-        return res.status(401).json({
-          message: 'O campo senha deve ser preenchido corretamente.'
-        })
+        return res.status(401).json({ message: 'O campo senha deve ser preenchido corretamente.' })
       }
 
       if (configuracao?.autenticacaoAd) {
         ad.authenticate(`${email}`, password, async (err, auth) => {
           if (err) {
-            return res
-              .status(401)
-              .json({ message: 'Login ou senha inválidos.' })
+            return res.status(401).json({ message: 'Login ou senha inválidos.' })
           }
 
           if (auth) {
-            let usuario = await Usuario.findOne({ where: { email } })
-            console.log('Usuário encontrado:', usuario)
-            if (!usuario) {
-              await Usuario.create({
-                email,
-                password
-              })
-            }
+            try {
+              let usuario = await Usuario.findOne({ where: { email } })
+              if (!usuario) {
+                await Usuario.create({ email, password })
+              }
 
-            usuario = await Usuario.findOne({ where: { email } })
+              usuario = await Usuario.findOne({ where: { email } })
 
-            // Verifica se o acesso é verdadeiro
-            if (usuario?.acesso === true) {
-              return res.status(200).json({
-                message: 'Usuário validado com sucesso.',
-                token: usuario?.generateToken()
-              })
-            } else {
-              console.log('Acesso negado:', usuario?.acesso)
+              if (usuario?.acesso === true) {
+                return res.status(200).json({ message: 'Usuário validado com sucesso.', token: usuario?.generateToken() })
+              } else {
+                const dataSolicitacao = new Date()
+                dataSolicitacao.setDate(dataSolicitacao.getDate())
 
-              const dataSolicitacao = new Date(usuario?.createdAt)
-              dataSolicitacao.setDate(dataSolicitacao.getDate() + 1)
+                const user = await Usuario.sequelize?.query(`
+                  SELECT TOP 1 NOME, CARGO, UNIDADE
+                  FROM TermoAceite.dbo.TOTVS
+                  WHERE email = '${usuario?.email}' AND EMAIL LIKE '%@pe.senac.br%' AND SITUACAO <> 'Demitido'
+                `)
 
-              const user = await Usuario.sequelize?.query(`
-                SELECT TOP 1 NOME, CARGO, UNIDADE
-                FROM TermoAceite.dbo.TOTVS
-                WHERE email = '${usuario?.email}' AND EMAIL LIKE '%@pe.senac.br%' AND SITUACAO <> 'Demitido'
-              `)
+                const userResult = user[0]?.[0]
 
-              console.log(JSON.stringify(user))
-              const userResult = user[0]?.[0]
+                const txEmail = `
+                <h1> Sistema Uso de Imagem </h1>
+                <br>O usuário ${userResult?.NOME}, de cargo ${userResult?.CARGO} da unidade ${userResult?.UNIDADE}, com o email ${usuario?.email}, <br></>
+                <b>Solicitou acesso ao sistema de uso de imagem na data: ${dataSolicitacao.toLocaleDateString('pt-BR')}.</b><br>
+                <br/>
+                <a href="https://www7.pe.senac.br/usoimagem/confirmar-acesso/${usuario?.id}">Aprovar acesso</a><p>
+                `
 
-              const txEmail = `
-              <h1> Sistema Uso de Imagem </h1>
-              <br>O usuário ${userResult.NOME}, de cargo ${userResult.CARGO} da unidade ${userResult.UNIDADE}, com o email ${usuario?.email}, <br></>
-              <b>Solicitou acesso ao sistema de uso de imagem na data: ${dataSolicitacao.toLocaleDateString(
-                'pt-BR'
-              )}.</b><br>
-              <br/>
-              <a href="https://www7.pe.senac.br/usoimagem/confirmar-acesso/${
-                usuario?.id
-              }">Aprovar acesso</a><p>
-              `
+                try {
+                  if (emailAutoriza) {
+                    await emailUtils.enviar(emailAutoriza, txEmail)
+                  } else {
+                    console.warn('E-mail de autorização não configurado.')
+                  }
+                } catch (error) {
+                  console.error('Erro ao enviar e-mail:', error)
+                }
 
-              emailUtils.enviar(configuracao?.emailAutoriza, txEmail)
-              return res.status(403).json({
-                message:
-                  'Acesso negado. Você deve ser validado pelo setor GTI.'
-              })
+                return res.status(403).json({ message: 'Acesso negado. Você deve ser validado pelo setor GTI.' })
+              }
+            } catch (error) {
+              console.error('Erro ao processar login:', error)
+              return res.status(500).json({ message: 'Erro ao processar login.' })
             }
           }
         })
       } else {
-        const registro = await Usuario.findOne({
-          where: { email, ativo: true }
-        })
+        try {
+          const registro = await Usuario.findOne({ where: { email, ativo: true } })
 
-        if (!registro) {
-          return res
-            .status(401)
-            .json({ message: 'Não foi possível localizar o usuário.' })
-        }
+          if (!registro) {
+            return res.status(401).json({ message: 'Não foi possível localizar o usuário.' })
+          }
 
-        if (!(await bcrypt.compare(password, registro.passwordHash))) {
-          return res.status(401).json({ message: 'Senha inválida.' })
-        }
+          if (!(await bcrypt.compare(password, registro.passwordHash))) {
+            return res.status(401).json({ message: 'Senha inválida.' })
+          }
 
-        // Verifica se o acesso é verdadeiro
-        if (registro.acesso === true) {
-          return res.status(200).json({
-            message: 'Usuário validado com sucesso.',
-            token: registro.generateToken()
-          })
-        } else {
-          emailUtils.enviar(configuracao?.emailAutoriza, txEmail)
-          return res.status(403).json({
-            message: 'Acesso negado. Você deve ser validado pelo setor GTI.'
-          })
+          if (registro.acesso === true) {
+            return res.status(200).json({ message: 'Usuário validado com sucesso.', token: registro.generateToken() })
+          } else {
+            try {
+              if (emailAutoriza) {
+                await emailUtils.enviar(emailAutoriza, txEmail)
+              } else {
+                console.warn('E-mail de autorização não configurado.')
+              }
+            } catch (error) {
+              console.error('Erro ao enviar e-mail:', error)
+            }
+
+            return res.status(403).json({ message: 'Acesso negado. Você deve ser validado pelo setor GTI.' })
+          }
+        } catch (error) {
+          console.error('Erro ao processar login:', error)
+          return res.status(500).json({ message: 'Erro ao processar login.' })
         }
       }
     } catch (err) {
-      console.log(err)
-      res.status(400).json({ message: 'Login ou senha inválidos.' })
+      console.error('Erro geral:', err)
+      res.status(400).json({ message: 'Erro inesperado ao realizar login.' })
     }
   }
 
